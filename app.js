@@ -100,3 +100,9 @@ new Morris.Donut({
         lineColors: ["#04c097"],
         resize : true
       });
+
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+});
