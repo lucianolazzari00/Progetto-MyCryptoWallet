@@ -1,140 +1,300 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="./css/main.min.css"/>
-    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>HomePage</title>
+    <!--morris-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <!--chartjs-->
+    
+
+
+    <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/main.min.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
 </head>
-<body class="bg-dark">
-    <div id="vueApp">
-        <!--Nav-bar-->
-        <nav class="navbar py-lg-3 navbar-expand-md navbar-light bg-primary">
-            <div class="container-xxl">
-                <a href="#" class="navbar-brand fw-bolder text-dark">
-                <img src="./assets/wallet-png-icon-free-download-458686.jpeg" width="30" height="30" class="d-inline-block align-top" />
-                MyCryptoWallet</a>
-                <button 
-                class="navbar-toggler" 
-                type="button" 
-                data-bs-toggle="collapse" 
-                data-bs-target="#toggleMobileMenu" 
-                aria-controls="toggleMobileMenu" 
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="toggleMobileMenu">
-                    <ul class="navbar-nav ms-auto">
+
+<body id="vueApp">
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav class="bg-light" id="sidebar">
+            <div class="sidebar-header">
+                <h3>MyCryptoWallet</h3>
+                <strong>MCW</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active " class="my-3">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sb-act">
+                        <i class="fas fa-chart-bar"></i>
+                    </a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sb-nact">
+                        <i class="fas fa-chart-bar"></i>
+                        Dashboard
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a class="nav-link" href="#">Dashboard</a>
+                            <a href="#">Portfolio 1</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="#">Gas Tracker</a>
+                            <a href="#">Portfolio 2</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="#">News</a>
-                        </li>
-                        <li>
-                            <a class="nav-link" href="#">Apy calculator</a>
+                            <a href="#">Portfolio 3</a>
                         </li>
                     </ul>
-                </div>
-            </div>
+                </li>
+                <li class="my-3">
+                    <a href="#" class="sb-act">
+                        <i class="fas fa-bell"></i>
+                    </a>
+                    <a href="#" class="sb-nact">
+                        <i class="fas fa-bell"></i>
+                        News
+                    </a>
+                </li>
+                <li class="my-3">
+                    <a href="#" class="sb-act">
+                        <i class="fas fa-gas-pump"></i>
+                    </a>
+                    <a href="#" class="sb-nact">
+                        <i class="fas fa-gas-pump"></i>
+                        Gas Tracker
+                    </a>
+                </li>
+                <li class="my-3">
+                    <a href="apy_calculator/index.html" class="sb-act">
+                        <i class="fas fa-calculator"></i>
+                    </a>
+                    <a href="apy_calculator/index.html" class="sb-nact">
+                        <i class="fas fa-calculator"></i>
+                        APY calculator
+                    </a>
+                </li>
+            </ul>
+
         </nav>
 
-        <!--containers-layout-->
-        <div class="container-lg my-4">
-            <div class="row justify-content-center">
-                <div class="col-lg-4 border-0">
-                    <div class="p-5 col text-center text-md-start border-0 rounded-3">
-                        <!--portfolios list-->
-                        <div class="container-fluid text-start">
-                            <h1 class="text-secondary">Portfolios</h1>
-                            <hr>
-                            <div v-for="p,i in portfolios"  class="row bg-light my-4" style="border-radius: 25px">
-                                <div class="container text-secondary">
-                                    <div class="row align-content-center my-4">
-                                        <div class="col-2 mx-1 bg-primary text-center" style="border-radius: 10px;">
-                                            <h4>{{i}}</h4>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog model-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLabel">Add Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" onsubmit="form_handler()">
+                        <label for="name" class="form-label">Asset Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="e.g Bitcoin" required>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="0.00" required>
+                            </div>
+                            <div class="col">
+                                <label for="ppc" class="form-label">Price Per Coin</label>
+                                <input type="number" class="form-control" id="ppc" placeholder="" required>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="data" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="data" placeholder="e.g Bitcoin" required>
+                        <br>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Page Content  -->
+
+        <div id="content" class="text-white">
+            <!--navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">market-cap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">btc-dominance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">username</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!--main content-->
+            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px">
+                <div class="row" style="padding: 20px;">
+                    <div class="col text-start">
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div class="col text-end">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fas fa-plus-circle"></i>
+                            New asset</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <!--4x4-->
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col">
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
-                                        <div class="col-8 text-secondary">
-                                            <h5>{{p.name}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-4 align-items-center justify-content-center">
+                                <div class="col">
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-8 border-0">
-                    <div class="p-5 col text-center text-md-start bg-dark border-1 border-light rounded-3">
-                        <!--dashboard-->
-                        <div class="container-fluid text-start">
-                            <h1 class="text-secondary">Dashboard</h1>
-                            <hr>
-                            <!--Grafico-->
-                            <div class="row">
-                                <div class="container">
-                                <button class="btn btn-primary" id="pie-btn" @click="pie_show">pie</button>
-                                <button class="btn btn-primary mx-2" id="line-btn" @click="line_show">line</button>
-                                <div id="pie-chart" style="height: 250px; display: none;"></div>
-                                <div id="line-chart" style="height: 250px;"></div>
-                            </div>
-                            </div>
-                            <h3 class="text-secondary">Your assets</h3>
-                            <hr>
-                            <!--intestazione "tabella"-->
-                            <!--<div class="container text-secondary">-->
-                                <div class="row text-secondary">
-                                    <div class="col-3">
-                                        <h4>Name</h4>
-                                    </div>
-                                    <div class="col-3">
-                                        <h4>Holdings</h4>
-                                    </div>
-                                    <div class="col-3">
-                                        <h4>Avg buy price</h4>
-                                    </div>
-                                    <div class="col-3">
-                                        <h4>profit/loss</h4>
-                                    </div>
-                                </div>
-                            <!--</div>-->
-                            <!--tabella con asssets-->
-                            <div v-for="asset in assets"  class="row bg-light my-4" style="border-radius:30px">
-                                <div class="container text-secondary text-center">
-                                    <div class="row my-4">
-                                        <div class="col-3">
-                                            <h4>{{asset.crypto}}</h4>
-                                        </div>
-                                        <div class="col-3">
-                                            <h4>{{asset.holdings}}</h4>
-                                        </div>
-                                        <div class="col-3">
-                                            <h4>{{asset.med_load}}</h4>
-                                        </div>
-                                        <div class="col-3">
-                                            <h4>{{asset.p_l}}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--prova-->
+                    <div class="col-12 col-xl-7" >
+                        <div class="container-fluid justify-content-center bg-light py-3" style="border-radius: 30px"> 
+                            <div id="line-chart" style="height: 250pxpx;"></div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col bg-light" style="border-radius: 30px;">
+                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets</h2>
+                        <div class="table-responsive">  
+                            <table class="table table-light table-hover">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">name</th>
+                                    <th scope="col">price</th>
+                                    <th scope="col">holdings</th>
+                                    <th scope="col">medium load</th>
+                                    <th scope="col">profit/loss</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr v-for="asset in assets">
+                                    <td class="fw-bold text-start">{{asset.name}}</th>
+                                    <td class="text-center text-success">{{asset.price}}</td>
+                                    <td class="text-center">{{asset.holdings}}</td>
+                                    <td class="text-center">{{asset.medium_load}}</td>
+                                    <td class="text-center text-danger">{{asset.p_l}}</td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12 mx-xl-4 my-4 my-xl-0 col-xl-5 bg-light" style="border-radius: 30px;">
+                        <h2 style="padding-top: 20px; padding-left: 20px;">Pie-chart</h2>
+                        <div id="pie-chart" style="height: 250px;"></div> 
                     </div>
                 </div>
             </div>
+            
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <script type="application/javascript" src="./app.js"></script>
     </div>
+
+    <script src="../app.js" type="application/javascript"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <!--bootstrap js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                if ($('.sb-act').css('display')=='none'){
+                    $('.sb-act').css('display','block');
+                }
+                else if ($('.sb-act').css('display')=='block'){
+                    $('.sb-act').css('display','none');
+                };
+                if ($('.sb-nact').css('display')=='block'){
+                    $('.sb-nact').css('display','none');
+                }
+                else if ($('.sb-nact').css('display')=='none'){
+                    $('.sb-nact').css('display','block');
+                };
+            });
+            $('.li').on('click',function(){
+                $('li').css('color','red')
+            })
+        });
+    </script>
 </body>
+
 </html>

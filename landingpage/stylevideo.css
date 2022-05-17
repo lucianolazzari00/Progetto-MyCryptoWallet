@@ -1,0 +1,20 @@
+@charset "UTF-8";
+body{
+    overflow-x: hidden;
+}
+.video-background{
+    position: relative;
+    width: 100%;
+    min-height:  100vh;
+    background-color: rgba(0,0,0,0.8);
+
+}
+
+.caption{
+    position: absolute;
+    top : 38%;
+    width: 100%;
+    align-content: center;
+    color: #559392;
+
+}

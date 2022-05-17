@@ -3,33 +3,38 @@ let app = Vue.createApp({
         return {
             assets:[
                 {
-                    crypto:"Ethereum",
+                    name:"Ethereum",
+                    price: 2340,
                     holdings: 32,
-                    med_load: 2500,
-                    p_l: 0.35,
+                    medium_load: 2500,
+                    p_l: +0.35,
                 },
                 {
-                    crypto:"Bitcoin",
+                    name:"Bitcoin",
+                    price: 29475,
                     holdings: 21,
-                    med_load: 30000,
-                    p_l: 0.75,
+                    medium_load: 30000,
+                    p_l: +0.75,
                 },
                 {
-                    crypto:"Binance coin",
+                    name:"Binance coin",
+                    price: 345,
                     holdings: 3785,
-                    med_load: 450,
-                    p_l: 0.89,
+                    medium_load: 450,
+                    p_l: +0.89,
                 },
                 {
-                    crypto:"convex",
+                    name:"convex",
+                    price: 14.74,
                     holdings: 569,
-                    med_load: 10.54,
-                    p_l: 1.45,
+                    medium_load: 10.54,
+                    p_l: +1.45,
                 },
                 {
-                    crypto:"shiba inu",
+                    name:"shiba inu",
+                    price: 0.0076,
                     holdings:1090,
-                    med_load:0.45,
+                    medium_load:0.45,
                     p_l:1.56
                 }
         ],
@@ -83,20 +88,24 @@ new Morris.Donut({
     labelColor: "#ffffff"
     });
 
-    Morris.Line({
-        element: 'line-chart',
-        data: [
-          { y: '2006', a: 100,},
-          { y: '2007', a: 75, },
-          { y: '2008', a: 50, },
-          { y: '2009', a: 75, },
-          { y: '2010', a: 50, },
-          { y: '2011', a: 75, },
-          { y: '2012', a: 100,}
-        ],
-        xkey: 'y',
-        ykeys: 'a',
-        labels: 'Series A',
-        lineColors: ["#04c097"],
-        resize : true
-      });
+Morris.Line({
+    element: 'line-chart',
+    data: [
+        { y: '2006', a: 100,},
+        { y: '2007', a: 75, },
+        { y: '2008', a: 50, },
+        { y: '2009', a: 75, },
+        { y: '2010', a: 50, },
+        { y: '2011', a: 75, },
+        { y: '2012', a: 100,}
+    ],
+    xkey: 'y',
+    ykeys: 'a',
+    labels: 'Series A',
+    lineColors: ["#04c097"],
+    resize : true
+});
+
+function form_handler(){
+    alert("devo fa l'handler")
+}
