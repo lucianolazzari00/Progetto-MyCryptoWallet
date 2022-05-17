@@ -164,23 +164,9 @@ ul.CTAs a {
     display: none
 }
 
-.cardfbf{
-    min-height: 10vh;
-    max-height: 10vh;
-    min-width: 10vh;
-    max-width: 10vh;
-    padding: 5px;
-    text-align: left;
-}
 
-.cardfbf .card-ttl{
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.4vw;
-    font-weight: 600;
-    line-height: 1.3em;
-
-}
 /*------*/
+
 
 /* ---------------------------------------------------
     CONTENT STYLE

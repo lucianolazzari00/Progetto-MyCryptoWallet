@@ -7,6 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>HomePage</title>
+    <!--morris-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <!--chartjs-->
+    
+
+
+    <!--vuejs-->
+    <script src="https://unpkg.com/vue@3"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/main.min.css">
@@ -19,7 +30,7 @@
 
 </head>
 
-<body>
+<body id="vueApp">
 
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -116,59 +127,83 @@
             <h2 style="padding: 20px;">Dashboard</h2>
             <div class="container-fluid" style="padding-left: 30px; padding-right: 30px">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col">
                         <!--4x4-->
                         <div class="container-fluid" style="padding: 0px;">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col">
-                                    <div class="card border-0">
-                                        <div class="card-body bg-light text-center">
-                                            hello
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="card border-0"">
-                                        <div class="card-body bg-light text-center">
-                                            profit
-                                            <br>
-                                            136.78$
-                                            <br>
-                                            +54.78%
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row my-3 align-items-center justify-content-center">
+                            <div class="row my-4 align-items-center justify-content-center">
                                 <div class="col">
-                                    <div class="card border-0"">
-                                        <div class="card-body bg-light text-center">
-                                            hello
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="card border-0"">
-                                        <div class="card-body bg-light text-center">
-                                            hello
+                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h4 class="my-2 card-title">Profit/loss</h4>
+                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-8">
-                        <h1>col8</h1>
+                    <div class="col-12 col-xl-7" >
+                        <div class="container justify-content-center bg-light" style="border-radius: 30px">
+                            <button class="btn btn-primary" id="pie-btn" @click="pie_show">pie</button>
+                            <button class="btn btn-primary mx-2" id="line-btn" @click="line_show">line</button>
+                            <div class="container">
+                                <!--<canvas id="myChart"></canvas>-->
+                            </div>
+                            <div id="pie-chart" style="height: 300px; display: none;"></div>  
+                            <div id="line-chart" style="height: 479px;"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="row bg-primary" style="padding: 50px;">
-                    <h1>ciao</h1>
+                <div class="row">
+                    <div class="col bg-light" style="border-radius: 30px;">
+                        <h1 class="pd-5">tabella</h1>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, labore? Adipisci culpa a deserunt voluptas natus sunt fugit alias, distinctio saepe iusto suscipit! Perspiciatis sit accusantium ullam consequatur quidem amet.</p>
+                    </div>
+                    <div class="col-12 mx-4 col-xl-5 bg-light" style="border-radius: 30px;">
+                        <h1 class="pd-5">pie-chart</h1>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, ab repellat. Dignissimos consectetur odio molestias, aut assumenda aliquid numquam minus reprehenderit cupiditate, impedit, atque laborum accusantium? Rem consequatur sequi ad?</p>
+                    </div>
                 </div>
             </div>
             
         </div>
     </div>
 
+    <script src="../app.js" type="application/javascript"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
@@ -197,6 +232,37 @@
                 $('li').css('color','red')
             })
         });
+    </script>
+    <script>
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+            label: 'My First dataset',
+            backgroundColor: '#e84f2c',
+            borderColor: '#e84f2c',
+            data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
     </script>
 </body>
 
