@@ -127,7 +127,88 @@
             </nav>
             <!--main content-->
             <div class="container-fluid" style="padding-left: 30px; padding-right: 30px">
-                
+                <div class="container">
+                    <div class="row justify-content-center align-content-center" style="height: 100vh">
+                        <div class="col col-lg-5 text-center">
+                            <div class="card bg-light" style="border-radius: 30px">
+                                <div class="card-header align-items-center">
+                                   <h3 style="padding-top: 12px">APY Calculator</h3> 
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="sum" class="form-group">Insert Sum</label>
+                                                <input type="number" class="form-control" id="sum" placeholder="0.00">
+                                                <br>
+                                            </div>
+                                            <div class="col">
+                                                <label for="tax" class="form-group">Insert Interest Tax</label>
+                                                <input type="number" class="form-control" id="tax" placeholder="0.00">
+                                                <br>
+                                            </div>
+                                        </div>
+                                        <label for="sum" class="form-group">Insert Sum</label>
+                                        <input type="number" class="form-control" id="sum" placeholder="0.00">
+                                        <br>
+                                        
+                                        <label class="form-group">Time</label>
+                                        <br>
+                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group1">
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio1">1D</label>
+                                          
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio2">7D</label>
+                                          
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio3">30D</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio4">1Y</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio5">7Y</label>
+                                          </div>
+                                        
+                                        <br>
+                                        <br>
+                                    
+                                        <label class="form-group">Compounding Every</label>
+                                        <br>
+                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group2">
+
+                                            <input type="radio" class="btn-check" name="btnradio1" id="1" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="1">1D</label>
+                                          
+                                            <input type="radio" class="btn-check" name="btnradio1" id="2" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="2">7D</label>
+                                          
+                                            <input type="radio" class="btn-check" name="btnradio1" id="3" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="3">14D</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio1" id="4" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="4">30Y</label>
+
+                                          </div>
+                                        
+                                        <br>
+                                        <br>
+
+                                        <label for="apy" class="form-group">APY</label>
+                                        <input type="number" class="form-control" id="apy" placeholder="0.00">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<h1 style="padding: 30px">APY Calculator</h1>
+                <form>
+                    <label for="sum">insert sum</label>
+                    <input type="number" class="form-control" id="sum" placeholder="0.00">
+                </form>-->
             </div>
             
         </div>
