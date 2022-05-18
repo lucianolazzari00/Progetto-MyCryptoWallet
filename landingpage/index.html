@@ -7,28 +7,114 @@
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" href="./stylevideo.css"/>
     <link rel="stylesheet" type="text/css" href="../css/main.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../index.css"/>
+    <!--jquery-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div
-    class="bg-image"
-    style="
-    background-image: url('../assets/dark-theme-17.jpg');
-    height: 100vh;
-    background-repeat: no-repeat;
-    "
-    >
-        <div class="mask h-100" style="background-color: rgba(0,0,0,0.2);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="container d-flex align-items-center justify-content-center text-center h-100"">
-                    <div class="text-primary">
-                        <h1 class="mb-3">MyCryptoWallet</h1>
-                        <h5 class="text-white mb-1">Your invetsment, news, statistics... all in one place</h5>
-                        <a href="../index.html" class="btn m-2 btn-outline-secondary">sign-up</a>
-                        <a href="../index.html" class="btn m-2 btn-outline-secondary">sign-in</a>
+    <div class="bg-faded-animated">
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0d0e135e;">
+            <div class="container-xxl" style="margin-top: 4px;">
+                <h3 class="navbar-brand fw-bolder text-align-start">MyCryptoWallet<h3></h3>
+                    <ul class="nav navbar-nav justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link text-white"  href="#">market-cap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white"  href="#">btc-dominance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white"  href="#">username</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white"  href="#">logout</a>
+                        </li>
+                    </ul>
+            </div>
+        </nav>
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100" style="padding-bottom: 150px;">
+                <div class="col-12 col-md-4 text-center align-items-center">
+                    <h1 class="mb-3 text-white fw-bolder">MyCryptoWallet</h1>
+                    <h5 class="text-muted mb-2" id="subtitle">Your invetsment, news, statistics... all in one place</h5>
+                    <!--sign-in-->
+                    <div class="card border-secondary text-center my-4" style="display: none; background-color: #00000000; border-radius: 20px;" id="signInCard">
+                        <hr>
+                        <div class="text-white card-header border border-0">
+                          <h3 class="fw-bold">sign-in</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="#" onsubmit="sign_in_form()">
+                                    <div class="mb-2">
+                                      <input type="email" class="form-control text-white id="InputEmail1" required style="background-color: #00000000;" placeholder="email">
+                                    </div>
+                                    <div class="mb-2">
+                                      <input type="password" class="form-control text-white id="InputPassword1" required style="background-color: #00000000;" placeholder="password">
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-secondary">Submit</button>
+                            </form>
+                        </div>
+                      </div>
+
+                    <!--sign-up-->
+                    <div class="card border-secondary text-center my-4" style="display: none; background-color: #00000000; border-radius: 20px;" id="signUpCard">
+                        <hr>
+                        <div class="text-white card-header border border-0">
+                          <h3 class="fw-bold">sign-up</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="#" onsubmit="sign_up_form()">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control text-white" id="InputUsername1" required style="background-color: #00000000;" placeholder="username">
+                                    </div>
+                                    <div class="mb-3">
+                                      <input type="email" class="form-control text-white" id="InputEmail1" required style="background-color: #00000000;" placeholder="email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control text-white" id="InputEmail1" required style="background-color: #00000000;" placeholder="repeat email">
+                                      </div>
+                                    <div class="mb-3">
+                                      <input type="password" class="form-control text-white" id="InputPassword1" required style="background-color: #00000000;" placeholder="password">
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-secondary">Submit</button>
+                            </form>
+                        </div>
                     </div>
+
+                    <a href="#" class="btn m-2 btn-outline-secondary" id="signUpBtn">sign-up</a>
+                    <a href="#" class="btn m-2 btn-outline-secondary" id="signInBtn">sign-in</a>
                 </div>
             </div>
         </div>
     </div>
+    <!--bootstrap js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#signInBtn').on('click', function () {
+                $('#signInBtn').css('display','none');
+                $('#subtitle').css('display','none');
+                $('#signUpBtn').css('display','none');
+                $('#signInCard').css('display','block')
+            });
+
+            $('#signUpBtn').on('click', function () {
+                    $('#signInBtn').css('display','none');
+                    $('#subtitle').css('display','none');
+                    $('#signUpBtn').css('display','none');
+                    $('#signUpCard').css('display','block')
+                });
+        });
+
+        function sign_in_form(){
+            text
+        }
+    </script>
 </body>
 </html>
