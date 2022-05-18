@@ -42,24 +42,13 @@
 
             <ul class="list-unstyled components">
                 <li class="active " class="my-3">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sb-act">
+                    <a href="#" class="sb-act">
                         <i class="fas fa-chart-bar"></i>
                     </a>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sb-nact">
+                    <a href="#" class="sb-nact">
                         <i class="fas fa-chart-bar"></i>
                         Dashboard
                     </a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Portfolio 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Portfolio 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Portfolio 3</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="my-3">
                     <a href="#" class="sb-act">
@@ -71,10 +60,10 @@
                     </a>
                 </li>
                 <li class="my-3">
-                    <a href="#" class="sb-act">
+                    <a href="gas_tracker/index.html" class="sb-act">
                         <i class="fas fa-gas-pump"></i>
                     </a>
-                    <a href="#" class="sb-nact">
+                    <a href="gas_tracker/index.html" class="sb-nact">
                         <i class="fas fa-gas-pump"></i>
                         Gas Tracker
                     </a>
@@ -174,15 +163,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-xl-4">
                         <!--4x4-->
                         <div class="container-fluid" style="padding: 0px;">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col">
                                     <div style="border-radius: 30px;" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h4 class="my-2 card-title">Profit/loss</h4>
-                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <h5 class="my-1 card-title">Profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
                                             <p class="card-text text-success fw-bold">+54.93%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
@@ -191,8 +180,8 @@
                                 <div class="col">
                                     <div style="border-radius: 30px;" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h4 class="my-2 card-title">Profit/loss</h4>
-                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <h5 class="my-1 card-title">Profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
                                             <p class="card-text text-success fw-bold">+54.93%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
@@ -203,8 +192,8 @@
                                 <div class="col">
                                     <div style="border-radius: 30px;" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h4 class="my-2 card-title">Profit/loss</h4>
-                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <h5 class="my-1 card-title">Profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
                                             <p class="card-text text-success fw-bold">+54.93%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
@@ -213,8 +202,8 @@
                                 <div class="col">
                                     <div style="border-radius: 30px;" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h4 class="my-2 card-title">Profit/loss</h4>
-                                            <p style="padding-top: 10px; font-size: 40px" class="fw-bold">$136.78</p>
+                                            <h5 class="my-1 card-title">Profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
                                             <p class="card-text text-success fw-bold">+54.93%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
@@ -223,7 +212,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-7" >
+                    <div class="col-12 col-xl-8" >
                         <div class="container-fluid justify-content-center bg-light py-3" style="border-radius: 30px"> 
                             <div id="line-chart" style="height: 250pxpx;"></div>
                         </div>
@@ -233,7 +222,7 @@
                     <div class="col bg-light" style="border-radius: 30px;">
                         <h2 style="padding-top: 20px; padding-left: 20px;">Assets</h2>
                         <div class="table-responsive">  
-                            <table class="table table-light table-hover">
+                            <table class="table table-light table-hover" style="line-height: 20px;">
                                 <thead>
                                   <tr>
                                     <th scope="col">name</th>
@@ -244,7 +233,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr v-for="asset in assets">
+                                  <tr v-for="asset in assets" style="line-height: 50px;">
                                     <td class="fw-bold text-start">{{asset.name}}</th>
                                     <td class="text-center text-success">{{asset.price}}</td>
                                     <td class="text-center">{{asset.holdings}}</td>

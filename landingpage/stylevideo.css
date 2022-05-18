@@ -1,20 +1,81 @@
-@charset "UTF-8";
-body{
-    overflow-x: hidden;
+html, body {margin: 0; height: 100%; overflow: hidden}
+.bg-faded-animated{
+    background: linear-gradient(120deg, #1f2633, #1f2633, #1f2633, #e84f2c, #1f2633, #1f2633, #1f2633);
+    background-size: 600% 600%;
+    height: 110vh;
+    -webkit-animation: fadbganimation 30s linear infinite;
+    -moz-animation: fadbganimation 30s linear infinite;
+    -o-animation: fadbganimation 30s linear infinite;
+    animation: fadbganimation 30s linear infinite;
 }
-.video-background{
-    position: relative;
-    width: 100%;
-    min-height:  100vh;
-    background-color: rgba(0,0,0,0.8);
 
+
+@-webkit-keyframes fadbganimation {
+    0%{background-position:0% 51%}
+    100%{background-position:100% 50%}
+    /*100%{background-position:0% 51%}*/
+}
+@-moz-keyframes fadbganimation {
+    0%{background-position:0% 51%}
+    100%{background-position:100% 50%}
+    /*100%{background-position:0% 51%}*/
+}
+@-o-keyframes fadbganimation {
+    0%{background-position:0% 51%}
+    100%{background-position:100% 50%}
+    /*100%{background-position:0% 51%}*/
+}
+@keyframes fadbganimation {
+    0%{background-position:0% 51%}
+    100%{background-position:100% 50%}
+    /*100%{background-position:0% 51%}*/
 }
 
-.caption{
-    position: absolute;
-    top : 38%;
-    width: 100%;
-    align-content: center;
-    color: #559392;
 
-}
+::-webkit-input-placeholder {
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.24);
+    padding: 5px;
+  }
+  
+  :-moz-placeholder {
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 5px;
+  }
+  
+  ::-moz-placeholder {
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 5px;
+  }
+  
+  :-ms-input-placeholder {  
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 5px;
+  }
+  
+  ::input-placeholder {  
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 5px;
+  }
+  
+  ::placeholder {
+    font-style: italic;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 5px;
+  }
