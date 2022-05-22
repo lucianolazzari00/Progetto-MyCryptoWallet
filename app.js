@@ -38,36 +38,9 @@ let app = Vue.createApp({
                     p_l:1.56
                 }
         ],
-        portfolios: [
-            {
-                name: "big capitalization"
-            },
-            {
-                name: "nft-metaverse"
-            },
-            {
-                name: "defi"
-            },
-            {
-                name: "gambling"
-            }
-        ]
         }
     },
     methods: {
-        pie_show(){
-            var pie = document.getElementById("pie-chart")
-            var line = document.getElementById("line-chart")
-            line.style.display = "none"
-            pie.style.display = "block"
-            pie.style.alignContent = "center"
-        },
-        line_show(){
-            var pie = document.getElementById("pie-chart")
-            var line = document.getElementById("line-chart")
-            line.style.display = "block"
-            pie.style.display = "none"
-        }
     }
 });
 app.mount('#vueApp')

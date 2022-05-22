@@ -13,8 +13,10 @@
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!--vuejs-->
+    <script src="https://unpkg.com/vue@3"></script>
 </head>
-<body>
+<body id="vueAppAuth">
     <div class="bg-faded-animated">
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0d0e135e;">
@@ -48,16 +50,15 @@
                           <h3 class="fw-bold">sign-in</h3>
                         </div>
                         <div class="card-body">
-                            <form action="#" onsubmit="sign_in_form()">
-                                    <div class="mb-2">
-                                      <input type="email" class="form-control text-white id="InputEmail1" required style="background-color: #00000000;" placeholder="email">
-                                    </div>
-                                    <div class="mb-2">
-                                      <input type="password" class="form-control text-white id="InputPassword1" required style="background-color: #00000000;" placeholder="password">
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-secondary">Submit</button>
+                            <form> <!--@submit="login_submit()"-->
+                                <div class="mb-2">
+                                    <input type="email" name="usermail" class="form-control text-white" id="InputEmail1" required v-model="email" style="background-color: #00000000;" placeholder="email">
+                                </div>
+                                <div class="mb-2">
+                                    <input type="password" name="userpsw" class="form-control text-white" id="InputPassword1" required v-model="psw" style="background-color: #00000000;" placeholder="password">
+                                </div>
                             </form>
+                            <button class="my-2 btn btn-secondary" @click="login_submit()">login</button>
                         </div>
                       </div>
 
@@ -116,5 +117,6 @@
             text
         }
     </script>
+    <script src="./auth.js" type="application/javascript"></script>
 </body>
 </html>
