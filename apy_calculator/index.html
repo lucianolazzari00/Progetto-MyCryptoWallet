@@ -30,7 +30,7 @@
 
 </head>
 
-<body id="vueApp">
+<body id="vueAppApyCalc">
 
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -40,17 +40,17 @@
                 <strong>MCW</strong>
             </div>
 
-            <ul class="list-unstyled components">
+            <ul class="list-unstyled components" style="margin-top: 5vh;">
                 <li class="my-3">
-                    <a href="/" class="sb-act">
+                    <a href="../dashboard/index.html" class="sb-act">
                         <i class="fas fa-chart-bar"></i>
                     </a>
-                    <a href="/" class="sb-nact">
+                    <a href="../dashboard/index.html" class="sb-nact">
                         <i class="fas fa-chart-bar"></i>
                         Dashboard
                     </a>
                 </li>
-                <li class="my-3">
+                <!--<li class="my-3">
                     <a href="#" class="sb-act">
                         <i class="fas fa-bell"></i>
                     </a>
@@ -58,12 +58,12 @@
                         <i class="fas fa-bell"></i>
                         News
                     </a>
-                </li>
+                </li>-->
                 <li class="my-3">
-                    <a href="#" class="sb-act">
+                    <a href="../gas_tracker/index.html" class="sb-act">
                         <i class="fas fa-gas-pump"></i>
                     </a>
-                    <a href="#" class="sb-nact">
+                    <a href="../gas_tracker/index.html" class="sb-nact">
                         <i class="fas fa-gas-pump"></i>
                         Gas Tracker
                     </a>
@@ -124,86 +124,82 @@
                                    <h3 style="padding-top: 12px">APY Calculator</h3> 
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form action="" @submit="apy_calc_submit()" @change="calculator()">
                                         <div class="row">
                                             <div class="col">
-                                                <label for="sum" class="form-group">Insert Sum</label>
-                                                <input type="number" class="form-control" id="sum" placeholder="0.00">
+                                                <label for="sum" class="form-group">Sum</label>
+                                                <input type="number" class="form-control" name="sum" id="sum" placeholder="0.00" v-model="sumField" @input="calculator()">
                                                 <br>
                                             </div>
                                             <div class="col">
-                                                <label for="tax" class="form-group">Insert Interest Tax</label>
-                                                <input type="number" class="form-control" id="tax" placeholder="0.00">
+                                                <label for="tax" class="form-group">Interest Tax</label>
+                                                <input type="number" class="form-control" name="tax" id="tax" placeholder="0.00" v-model="interestField" @input="calculator()">
                                                 <br>
                                             </div>
                                         </div>
-                                        <label for="sum" class="form-group">Insert Sum</label>
-                                        <input type="number" class="form-control" id="sum" placeholder="0.00">
-                                        <br>
-                                        
                                         <label class="form-group">Time</label>
                                         <br>
                                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group1">
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio1">1D</label>
+                                            <input type="radio" class="btn-check" checked="checked" name="btnradio" id="btnradio1" value="1" autocomplete="off" @change="time_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="btnradio1">1d</label>
                                           
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio2">7D</label>
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="7" autocomplete="off" @change="time_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="btnradio2">7d</label>
                                           
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio3">30D</label>
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="30" autocomplete="off" @change="time_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="btnradio3">30d</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio4">1Y</label>
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="365" autocomplete="off" @change="time_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="btnradio4">1y</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio5">7Y</label>
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="1825" autocomplete="off" @change="time_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="btnradio5">5y</label>
                                           </div>
                                         
                                         <br>
                                         <br>
-                                    
+                                        <!--
                                         <label class="form-group">Compounding Every</label>
                                         <br>
                                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group2">
 
-                                            <input type="radio" class="btn-check" name="btnradio1" id="1" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="1">1D</label>
+                                            <input type="radio" class="btn-check" checked="checked" name="btnradio1" id="1" autocomplete="off" value="1" @change="comp_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="1">1d</label>
                                           
-                                            <input type="radio" class="btn-check" name="btnradio1" id="2" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="2">7D</label>
+                                            <input type="radio" class="btn-check" name="btnradio1" id="2" autocomplete="off" value="7" @change="comp_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="2">7d</label>
                                           
-                                            <input type="radio" class="btn-check" name="btnradio1" id="3" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="3">14D</label>
+                                            <input type="radio" class="btn-check" name="btnradio1" id="3" autocomplete="off" value="14" @change="comp_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="3">14d</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio1" id="4" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="4">30Y</label>
+                                            <input type="radio" class="btn-check" name="btnradio1" id="4" autocomplete="off" value="30" @change="comp_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="4">30d</label>
+                                            
+                                            <input type="radio" class="btn-check" name="btnradio1" id="5" autocomplete="off" value="365" @change="comp_radio_updater($event)">
+                                            <label class="btn btn-outline-secondary" for="4">1y</label>
 
-                                          </div>
-                                        
+                                        </div>
+                                        -->
+                                        <div class="card border-0 bg-light">
+                                            <div class="card-body bg-primary" style="margin-top: 15px; border-radius: 20px;">
+                                                <h3>{{result}}$</h3>
+                                            </div>
+                                        </div>
                                         <br>
-                                        <br>
-
-                                        <label for="apy" class="form-group">APY</label>
-                                        <input type="number" class="form-control" id="apy" placeholder="0.00">
+                                        <button type="reset" class="btn btn-primary" @change="reset_result()">reset</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--<h1 style="padding: 30px">APY Calculator</h1>
-                <form>
-                    <label for="sum">insert sum</label>
-                    <input type="number" class="form-control" id="sum" placeholder="0.00">
-                </form>-->
             </div>
             
         </div>
     </div>
 
-    <script src="../app.js" type="application/javascript"></script>
+    <script src="./apy_calc.js" type="application/javascript"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
@@ -228,9 +224,6 @@
                     $('.sb-nact').css('display','block');
                 };
             });
-            $('.li').on('click',function(){
-                $('li').css('color','red')
-            })
         });
     </script>
 </body>
