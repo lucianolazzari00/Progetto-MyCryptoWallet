@@ -14,10 +14,11 @@
 
     <!--chartjs-->
     
-
-
+ 
     <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/main.min.css">
@@ -84,7 +85,7 @@
 
         
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog model-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -92,28 +93,34 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" onsubmit="form_handler()">
+                    <form>
                         <label for="name" class="form-label">Asset Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="e.g Bitcoin" required>
+                        <br>
+                        <select class="form-select" name="name" id="name" v-model="nameasset">
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="ethereum">Ethereum</option>
+                            <option value="cardano">Cardano</option>
+                            <option value="convex">Convex</option>
+                          </select>
                         <br>
                         <div class="row">
                             <div class="col">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="0.00" required>
+                                <input type="number" class="form-control" id="quantity" placeholder="0.00" v-model="quantity" required>
                             </div>
                             <div class="col">
                                 <label for="ppc" class="form-label">Price Per Coin</label>
-                                <input type="number" class="form-control" id="ppc" placeholder="" required>
+                                <input type="number" class="form-control" id="ppc" placeholder="" v-model="price" required>
                             </div>
                         </div>
                         <br>
                         <label for="data" class="form-label">Data</label>
-                        <input type="date" class="form-control" id="data" placeholder="e.g Bitcoin" required>
+                        <input type="date" class="form-control" id="data" placeholder="e.g Bitcoin" v-model="date" required>
                         <br>
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
                     </form>
+                    <div class="row">
+                        <button class="btn btn-primary" @click="submit_new_asset()">Submit</button>
+                    </div>
                 </div>
             </div>
             </div>
@@ -145,7 +152,7 @@
                                 <a class="nav-link" href="#">username</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">logout</a>
+                                <a class="nav-link" href="/logout">logout</a>
                             </li>
                         </ul>
                     </div>
@@ -221,7 +228,7 @@
                 </div>
                 <div class="row">
                     <div class="col bg-light" style="border-radius: 30px;">
-                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets</h2>
+                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets{{ciao}}</h2>
                         <div class="table-responsive">  
                             <table class="table table-light table-hover" style="line-height: 20px;">
                                 <thead>
@@ -238,7 +245,7 @@
                                     <td class="fw-bold text-start">{{asset.name}}</th>
                                     <td class="text-center text-success">{{asset.price}}</td>
                                     <td class="text-center">{{asset.holdings}}</td>
-                                    <td class="text-center">{{asset.medium_load}}</td>
+                                    <td class="text-center">{{asset.med_load}}</td>
                                     <td class="text-center text-danger">{{asset.p_l}}</td>
                                   </tr>
                                 </tbody>
@@ -255,9 +262,10 @@
         </div>
     </div>
 
-    <script src="../app.js" type="application/javascript"></script>
+    <!--vueapp-->
+    <script src="./dash.js" type="application/javascript"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <!-- Popper.JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <!--bootstrap js-->
