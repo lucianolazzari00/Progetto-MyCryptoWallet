@@ -238,7 +238,6 @@ app.get("/user/datas", (req,res)=>{
                         res.send(JSON.stringify(response.data.docs))
                     })
                     .catch(error => {
-                        console.log("col cazzo")
                         console.error(error);
                         return res.send(error)
                     });
