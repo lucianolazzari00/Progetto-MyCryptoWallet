@@ -7,7 +7,6 @@ let app = Vue.createApp({
             price:"",
             date:"",
             assets: [],
-            ciao: "",
         }
     },
     methods: {
@@ -53,6 +52,75 @@ let app = Vue.createApp({
                 })
         },
         submit_new_asset(){
+            //conotrollo form
+            fname = $("#name").val()
+            fquantity = $("#quantity").val()
+            fppc = $("#ppc").val()
+            fdate = $("#data").val()
+
+            var alert_msg = ""
+
+            if(fname == null){
+                alert_msg += "selezionare un asset\n"
+            }
+
+            if(fquantity==null){
+                alert_msg += "inserire una quantità\n"
+            }
+            if(fquantity!=null){
+                if(isNaN(fquantity)){
+                    alert_msg += "la quantita deve essere un numero\n"
+                }
+                else if(fquantity<=0){
+                    alert_msg += "inserire una quantita maggiore di zero\n"
+                }
+            }
+
+            if(fppc==null){
+                alert_msg += "inserire un prezzo\n"
+            }
+            if(fppc!=null){
+                if(isNaN(fppc)){
+                    alert_msg += "il prezzo deve essere un numero\n"
+                }
+                else if(fppc<=0){
+                    alert_msg += "inserire un prezzo maggiore di zero\n"
+                }
+            }
+            var date = new Date()
+            var gg = date.getDate()
+            var mm = date.getMonth() + 1
+            var aa = date.getFullYear()
+            user_input_date = fdate.split("-") //anno - mese -giorno
+
+            if(fdate == null){
+                alert_msg += "inserire una data\n"
+            }
+            else{
+                if(user_input_date[0]>aa){
+                    alert_msg += "inserire data corrente o passata"
+                }
+                else if(user_input_date[0]==aa){
+                    if(user_input_date[1]>mm){
+                        alert_msg += "inserire data corrente o passata"
+                    }
+                    else if(user_input_date[1]==mm){
+                        if(user_input_date[2]>gg){
+                            alert_msg += "inserire data corrente o passata"
+                        }
+                    }
+                }
+    
+            }
+
+
+            //alert
+            if (alert_msg!=""){
+                alert(alert_msg)
+                return
+            }
+        
+            
             tmp = this.fetchdata
             dataa = { 
                 nameasset: this.nameasset, 
@@ -74,6 +142,7 @@ let app = Vue.createApp({
                     alert("some error")
                 }
             });
+            $("#exampleModal").modal("hide")
         },
     },
     created(){

@@ -87,26 +87,32 @@
         <!-- Modal -->
         <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog model-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="exampleModalLabel">Add Transaction</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content bg-light" style="border-radius: 30px;">
+                <div class="modal-header text-white border-dark">
+                <h4 class="modal-title fw-bold my-1" id="exampleModalLabel">Add Transaction</h4>
+                <button type="button" id="modalclose" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-white my-2">
                     <form>
                         <label for="name" class="form-label">Asset Name</label>
                         <br>
                         <select class="form-select" name="name" id="name" v-model="nameasset">
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="ethereum">Ethereum</option>
-                            <option value="cardano">Cardano</option>
-                            <option value="convex">Convex</option>
+                            <option value="bitcoin" selected> Bitcoin</option>
+                            <option value="ethereum"> Ethereum</option>
+                            <option value="cardano"> Cardano</option>
+                            <option value="tether"> Tether</option>
+                            <option value="convex-finance"> Convex-finance</option>
+                            <option value="bnb"> Bnb</option>
+                            <option value="xrp"> Xrp</option>
+                            <option value="polkadot"> Polkadot</option>
+                            <option value="solana"> Solana</option>
+                            <option value="cronos"> Cronos</option>
                           </select>
                         <br>
                         <div class="row">
                             <div class="col">
-                                <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="0.00" v-model="quantity" required>
+                                <label for="quantity" class="form-label" focus>Quantity</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="0.00" v-model="quantity" required autofocus>
                             </div>
                             <div class="col">
                                 <label for="ppc" class="form-label">Price Per Coin</label>
@@ -118,8 +124,11 @@
                         <input type="date" class="form-control" id="data" placeholder="e.g Bitcoin" v-model="date" required>
                         <br>
                     </form>
-                    <div class="row">
-                        <button class="btn btn-primary" @click="submit_new_asset()">Submit</button>
+                    <div class="row justify-content-center my-2">
+                        <div class="col-5 text-center">
+                            <button class="btn btn-primary" @click="submit_new_asset()" style="border-radius: 20px; padding-left: 50px; padding-right: 50px;">Submit</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -228,7 +237,7 @@
                 </div>
                 <div class="row">
                     <div class="col bg-light" style="border-radius: 30px;">
-                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets{{ciao}}</h2>
+                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets</h2>
                         <div class="table-responsive">  
                             <table class="table table-light table-hover" style="line-height: 20px;">
                                 <thead>

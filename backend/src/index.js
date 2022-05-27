@@ -151,7 +151,7 @@ app.get("/logout",(req,res)=>{
 })
 
 //-----------gestione dati utente-----------//
-//inserire dati utente nel db
+
 couch_url_data =  "http://admin:admin@couchdb:5984/users_data"
 
 app.post("/user/datas",(req,res)=>{
@@ -253,6 +253,75 @@ app.get("/user/datas", (req,res)=>{
         res.status(401).send()
     }
 })
+
+//------------------------------------------//
+
+//------------------API---------------------//
+
+app.get("/api/price",(req,res) => {
+    var slug = req.query.coin
+    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
+    
+    var coin = require("./coin.json") 
+    var id = coin[slug]
+    
+    axios
+        .get(options)
+        .then(res2 => {
+            var info = res2.data
+            var prezzo = info.data[id].quote.EUR.price
+            console.log("prezzo "+ slug + ": " + prezzo)
+            res.json({"prezzo" : prezzo})
+        })
+        .catch(error => {
+            console.error(error)
+        })
+})
+
+app.get("/api/stats", (req,res) => {
+
+    var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
+
+    axios
+        .get(options)
+        .then(res2 => {
+            var info = res2.data
+            var  total_market_cap = info.data.quote.EUR.total_market_cap
+            var btc_dominance = info.data.btc_dominance
+            var total_volume_24h = info.data.quote.EUR.total_volume_24h
+            console.log("total_market_cap: " + total_market_cap)
+            console.log("btc_dominance: " + btc_dominance)
+            console.log("total_volume_24h: " + total_volume_24h)
+
+            res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
+        })
+        .catch(error => {
+            console.error(error)
+        })
+}) 
+
+app.get("/api/gas", (req,res) => {
+
+    var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
+
+    axios
+        .get(options)
+        .then(res2 => {
+            var info = res2.data
+            var low = info.result.SafeGasPrice
+            var average = info.result.ProposeGasPrice
+            var high = info.result.FastGasPrice
+            console.log("low: " + low)
+            console.log("average: " + average)
+            console.log("high: " + high)
+            res.json({"low" : low, "average" : average, "high" : high})
+            //res.status(200).send()
+        })
+        .catch(error => {
+            console.log("ERROREE")
+            console.error(error)
+        })
+}) 
 
 //------------------------------------------//
 
