@@ -6,15 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>HomePage</title>
+    <title>Dashboard</title>
     <!--morris-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    <!--chartjs-->
-    
- 
+
     <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -51,16 +49,6 @@
                         Dashboard
                     </a>
                 </li>
-                <!--
-                <li class="my-3">
-                    <a href="#" class="sb-act">
-                        <i class="fas fa-bell"></i>
-                    </a>
-                    <a href="#" class="sb-nact">
-                        <i class="fas fa-bell"></i>
-                        News
-                    </a>
-                </li>-->
                 <li class="my-3">
                     <a href="../gas_tracker/index.html" class="sb-act">
                         <i class="fas fa-gas-pump"></i>
@@ -76,7 +64,7 @@
                     </a>
                     <a href="../apy_calculator/index.html" class="sb-nact">
                         <i class="fas fa-calculator"></i>
-                        APY calculator
+                        ROI Calculator
                     </a>
                 </li>
             </ul>
@@ -145,31 +133,37 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-primary">
                         <i class="fas fa-align-justify"></i>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">market-cap</a>
+                                <a class="nav-link">Market Cap : {{total_market_cap}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">btc-dominance</a>
+                                <a class="nav-link">BTC Dominance: {{btc_dominance}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">username</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">logout</a>
+                                <a class="nav-link">Volume 24h: {{total_volume_24h}}</a>
                             </li>
                         </ul>
                     </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                          <li><a class="dropdown-item" >{{username}}</a></li>
+                          <li><a class="dropdown-item" href="/logout">logout</a></li>
+                        </ul>
+                      </div>
                 </div>
             </nav>
+            
             <!--main content-->
-            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px">
-                <div class="row" style="padding: 20px;">
+
+
+            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont">
+                <div class="row" style="padding: 8px;">
                     <div class="col text-start">
                         <h2>Dashboard</h2>
                     </div>
@@ -180,96 +174,126 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-xl-4">
+                    <div class="col-12 col-xl-5">
                         <!--4x4-->
                         <div class="container-fluid" style="padding: 0px;">
                             <div class="row align-items-center justify-content-center">
-                                <div class="col">
-                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                <div class="col-12 col-sm-6 my-4 my-md-0 justify-content-center">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h5 class="my-1 card-title">Profit/loss</h5>
-                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
-                                            <p class="card-text text-success fw-bold">+54.93%</p>
-                                            <p class="card-text text-white"> last 24h</p>
+                                            <h5 class="my-1 card-title">Total profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">€{{total_p_l}}</p>
+                                            <p class="card-text fw-bold" id="perc">{{total_p_l_percent}}%</p>
+                                            <p class="card-text text-white"> all time</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                <div class="col-12 col-sm-6 justify-content-center">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h5 class="my-1 card-title">Profit/loss</h5>
-                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
-                                            <p class="card-text text-success fw-bold">+54.93%</p>
+                                            <h5 class="my-1 card-title">24h profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">€{{p_l_24h_val}}</p>
+                                            <p class="card-text fw-bold" id="p_l_24hperc">{{p_l_24h}}%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row my-4 align-items-center justify-content-center">
-                                <div class="col">
-                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                            <div class="row my-0 my-md-4 align-items-center justify-content-center">
+                                <div class="col-12 col-sm-6 my-4 my-md-0">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h5 class="my-1 card-title">Profit/loss</h5>
-                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
-                                            <p class="card-text text-success fw-bold">+54.93%</p>
-                                            <p class="card-text text-white"> last 24h</p>
+                                            <h5 class="my-1 card-title">Worst performance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">{{worst_performer}}</p>
+                                            <p class="card-text fw-bold" id="p_wf">{{profit_wf}}%</p>
+                                            <p class="card-text text-white"> all time</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div style="border-radius: 30px;" class="card border-0 bg-light">
+                                <div class="col-12 col-sm-6">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h5 class="my-1 card-title">Profit/loss</h5>
-                                            <p style="font-size: 25px" class="fw-bold">$136.78</p>
-                                            <p class="card-text text-success fw-bold">+54.93%</p>
-                                            <p class="card-text text-white"> last 24h</p>
+                                            <h5 class="my-1 card-title">Best performance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">{{best_performer}}</p>
+                                            <p class="card-text fw-bold" id="p_bf">{{profit_bf}}%</p>
+                                            <p class="card-text text-white"> all time</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-8" >
-                        <div class="container-fluid justify-content-center bg-light py-3" style="border-radius: 30px"> 
-                            <div id="line-chart" style="height: 250pxpx;"></div>
+                    <div class="col-12 col-xl-7 my-3 my-md-0" >
+                        <div class="container-fluid justify-content-center bg-light py-3" style="border-radius: 30px; max-height: 424px;"> 
+                            <div class="row">
+                                <div class="col">
+                                    <h2 style="padding-top: 5px; padding-left: 20px;">Balance</h2>
+                                </div>
+                                <div class="col text-end">
+                                    <h6 style="padding-top: 15px; padding-left: 20px;">Last seven days</h6>
+                                </div>
+                                
+                            </div> 
+                            <div class="container">
+                                <canvas id="line-chart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col bg-light" style="border-radius: 30px;">
-                        <h2 style="padding-top: 20px; padding-left: 20px;">Assets</h2>
-                        <div class="table-responsive">  
-                            <table class="table table-light table-hover" style="line-height: 20px;">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">name</th>
-                                    <th scope="col">price</th>
-                                    <th scope="col">holdings</th>
-                                    <th scope="col">medium load</th>
-                                    <th scope="col">profit/loss</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr v-for="asset in assets" style="line-height: 50px;">
-                                    <td class="fw-bold text-start">{{asset.name}}</th>
-                                    <td class="text-center text-success">{{asset.price}}</td>
-                                    <td class="text-center">{{asset.holdings}}</td>
-                                    <td class="text-center">{{asset.med_load}}</td>
-                                    <td class="text-center text-danger">{{asset.p_l}}</td>
-                                  </tr>
-                                </tbody>
-                            </table>
+                <div class="row my-2">
+                    
+                    <div class="col-12 col-xl-7 pe-xl-4" >
+                        <div class="container-fluid bg-light" style="border-radius: 30px; ">
+                            <h2 style="padding-top: 10px; padding-left: 20px;">Assets</h2>
+                            <div class="table-responsive" style="max-height: 295px;">  
+                                <table class="table table-light table-hover" style="line-height: 18px;">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">name</th>
+                                        <th class="text-end" scope="col">price</th>
+                                        <th class="text-end" scope="col">24h variation</th>
+                                        <th class="text-end" scope="col">holdings</th>
+                                        <th class="text-end" scope="col">medium load</th>
+                                        <th class="text-end" scope="col">profit/loss</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="asset in assets" style="line-height: 50px;">
+                                        <td class="fw-bold text-start">{{asset.name}}</th>
+                                        <td class="text-end">{{asset.price}}</td>
+                                        <td class="text-end">{{asset.perc24h}}</td>
+                                        <td class="text-end">{{asset.holdings}}</td>
+                                        <td class="text-end">{{asset.med_load}}</td>
+                                        <td class="text-end">{{asset.p_l}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        
                     </div>
-                    <div class="col-12 mx-xl-4 my-4 my-xl-0 col-xl-5 bg-light" style="border-radius: 30px;">
-                        <h2 style="padding-top: 20px; padding-left: 20px;">Pie-chart</h2>
-                        <div id="pie-chart" style="height: 250px;"></div> 
+                    <div class="col-12 col-xl-5 my-4 my-xl-0 bg-light" style="border-radius: 30px;">
+                        <!-- <div class="container bg-light" > -->
+                            <h2 style="padding-top: 10px; padding-left: 20px;">Asset Allocation</h2>
+                            <div class="container">
+                                <canvas id="pie-chart"></canvas>
+                            </div> 
+                        <!-- </div> -->
+                        
                     </div>
+                    
                 </div>
             </div>
             
         </div>
     </div>
+
+    <!--chartjs-->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  -->
+
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
 
     <!--vueapp-->
     <script src="./dash.js" type="application/javascript"></script>
@@ -297,9 +321,6 @@
                     $('.sb-nact').css('display','block');
                 };
             });
-            $('.li').on('click',function(){
-                $('li').css('color','red')
-            })
         });
     </script>
 </body>

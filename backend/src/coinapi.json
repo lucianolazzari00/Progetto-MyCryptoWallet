@@ -1,0 +1,12 @@
+{
+    "bitcoin" : "BTC",
+    "ethereum" : "ETH",
+    "tether" : "UST",
+    "bnb" : "BNB",
+    "xrp" : "XRP",
+    "cardano" : "ADA",
+    "solana" : "SOL",
+    "polkadot" : "DOT",
+    "cronos" : "CRO",
+    "convex-finance" : "CVX" 
+}

@@ -185,7 +185,7 @@ ul.CTAs a {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     #sidebar {
         min-width: 80px;
         max-width: 80px;

@@ -46,7 +46,7 @@ const isAuth = (req,res,next) => {
         next()
     } 
     else {
-        res.redirect("static/index.html")
+        res.status(401).send()
     } 
 }
 
@@ -258,6 +258,43 @@ app.get("/user/datas", (req,res)=>{
 
 //------------------API---------------------//
 
+app.get("/api/historical_price",(req,res) => {
+    var slug = req.query.coin
+    var coin = require("./coinapi.json")
+    var coin_id = coin[slug]
+    var url = "https://rest.coinapi.io/v1/exchangerate/"+coin_id+"/EUR/history?period_id=1DAY&time_start=2022-05-23T00:00:00&time_end=2022-05-29T00:00:00"
+    console.log(url)
+    const config = {
+        headers:{
+           "X-CoinAPI-Key": "DAB9D836-CEFD-4539-9F09-74B2DA0B2528"
+        }
+    }
+    
+    axios
+        .get(url,config)
+        .then(res2 => {
+            console.log("Historical")
+            var info = res2.data
+            r = {
+                coin : slug,
+                price : [res2.data[0].rate_open, 
+                    res2.data[1].rate_open, 
+                    res2.data[2].rate_open, 
+                    res2.data[3].rate_open, 
+                    res2.data[4].rate_open,
+                    res2.data[5].rate_open,
+                    res2.data[6].rate_open,
+                ]
+            }
+            console.log(r)
+            res.send(r)
+        })
+        .catch(error => {
+            res.send(error)
+            console.error(error)
+        })
+})
+
 app.get("/api/price",(req,res) => {
     var slug = req.query.coin
     var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
@@ -268,65 +305,82 @@ app.get("/api/price",(req,res) => {
     axios
         .get(options)
         .then(res2 => {
+            console.log("PRICEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
             var info = res2.data
+            console.log(info.data[id].quote)
             var prezzo = info.data[id].quote.EUR.price
-            console.log("prezzo "+ slug + ": " + prezzo)
-            res.json({"prezzo" : prezzo})
+            var percent_24h = info.data[id].quote.EUR.percent_change_24h
+            console.log("prezzo "+ slug + ": " + prezzo + "perc24:" + percent_24h)
+            res.json({"prezzo" : prezzo, "name" : slug, "percent_24h" : percent_24h})
         })
         .catch(error => {
             console.error(error)
         })
 })
 
+
 app.get("/api/stats", (req,res) => {
 
-    var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
+    if(req.session.isAuth){
+        var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
 
-    axios
-        .get(options)
-        .then(res2 => {
-            var info = res2.data
-            var  total_market_cap = info.data.quote.EUR.total_market_cap
-            var btc_dominance = info.data.btc_dominance
-            var total_volume_24h = info.data.quote.EUR.total_volume_24h
-            console.log("total_market_cap: " + total_market_cap)
-            console.log("btc_dominance: " + btc_dominance)
-            console.log("total_volume_24h: " + total_volume_24h)
+            axios
+                .get(options)
+                .then(res2 => {
+                    var info = res2.data
+                    var  total_market_cap = info.data.quote.EUR.total_market_cap
+                    var btc_dominance = info.data.btc_dominance
+                    var total_volume_24h = info.data.quote.EUR.total_volume_24h
+                    console.log("total_market_cap: " + total_market_cap)
+                    console.log("btc_dominance: " + btc_dominance)
+                    console.log("total_volume_24h: " + total_volume_24h)
 
-            res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
-        })
-        .catch(error => {
-            console.error(error)
-        })
+                    res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+    }
+    else{
+        res.status(401).send()
+    }
+
+    
 }) 
 
 app.get("/api/gas", (req,res) => {
 
-    var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
+    if(req.session.isAuth){
+        var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
 
-    axios
-        .get(options)
-        .then(res2 => {
-            var info = res2.data
-            var low = info.result.SafeGasPrice
-            var average = info.result.ProposeGasPrice
-            var high = info.result.FastGasPrice
-            console.log("low: " + low)
-            console.log("average: " + average)
-            console.log("high: " + high)
-            res.json({"low" : low, "average" : average, "high" : high})
-            //res.status(200).send()
-        })
-        .catch(error => {
-            console.log("ERROREE")
-            console.error(error)
-        })
+            axios
+                .get(options)
+                .then(res2 => {
+                    var info = res2.data
+                    var low = info.result.SafeGasPrice
+                    var average = info.result.ProposeGasPrice
+                    var high = info.result.FastGasPrice
+                    console.log("low: " + low)
+                    console.log("average: " + average)
+                    console.log("high: " + high)
+                    res.json({"low" : low, "average" : average, "high" : high})
+                    //res.status(200).send()
+                })
+                .catch(error => {
+                    console.log("ERROREE")
+                    console.error(error)
+                })
+    }
+    else{
+        res.status(401).send()
+    }
+    
 }) 
 
 //------------------------------------------//
 
-app.get("/prova", isAuth, (req,res)=>{
-    res.send("sei autenticato")
+app.get("/isAuth", isAuth, (req,res)=>{
+    res.status.send(200)
 })
 
 app.get("/auth", (req,res)=>{
