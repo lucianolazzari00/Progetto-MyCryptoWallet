@@ -1,7 +1,7 @@
 {
     "bitcoin" : "BTC",
     "ethereum" : "ETH",
-    "tether" : "UST",
+    "tether" : "USDT",
     "bnb" : "BNB",
     "xrp" : "XRP",
     "cardano" : "ADA",

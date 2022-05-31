@@ -33,7 +33,7 @@ app.use(express.json())
 //session configuration
 app.use(
     session({
-        secret: "key that will sign cookie",
+        secret: "8fd53awt456fsxe54",
         resave: false,
         saveUninitialized: false,
         store: store,
@@ -56,10 +56,12 @@ app.post("/sign-up", async(req,res)=>{
 
     let user = await userModel.findOne({email})
 
+    //controllo se esiste un user con la stessa email
     if(user){
         return res.status(403).send()
     } 
     
+    //creo il nuovo user e lo salvo nel db
     user = new userModel({
         email,
         password : psw, //need to be hashed
@@ -73,7 +75,6 @@ app.post("/sign-up", async(req,res)=>{
 app.post("/sign-in", async (req,res)=>{
     email = req.body.email
     psw = req.body.psw
-    console.log(req.body)
 
     let user = await userModel.findOne({email})
 
@@ -155,7 +156,6 @@ app.get("/logout",(req,res)=>{
 couch_url_data =  "http://admin:admin@couchdb:5984/users_data"
 
 app.post("/user/datas",(req,res)=>{
-    console.log("BODY DELLA REQUEST:---------------------------------")
     console.log(req.body)
     if(req.session.isAuth){
         ssid = req.sessionID.toString()
@@ -168,7 +168,6 @@ app.post("/user/datas",(req,res)=>{
             })
             .then(response => {
                 console.log(`statusCode: ${response.status}`);
-                console.log("RESPONSE X CATCHARE LA MAIL:---------------------------------")
                 console.log(response.data);
                 user_mail = response.data.docs[0].user
                 //-----
@@ -181,12 +180,10 @@ app.post("/user/datas",(req,res)=>{
                         date: req.body.date, 
                     })
                     .then(response2 => {
-                        console.log("RESPONSE 2-----------------------------")
                         console.log(`statusCode: ${response2.status}`);
                         console.log(response2.body);
                     })
                     .catch(error2 => {
-                        console.log("errore 2:---------------------------------")
                         console.error(error2);
                         return res.send(error2)
                     });
@@ -219,7 +216,6 @@ app.get("/user/datas", (req,res)=>{
             })
             .then(response => {
                 console.log(`statusCode: ${response.status}`);
-                console.log("RESPONSE DELLA GET 1--------------------------------")
                 console.log(response.data);
                 len_doc = response.data.docs.length
                 if(len_doc) user_mail = response.data.docs[0].user;
@@ -250,8 +246,70 @@ app.get("/user/datas", (req,res)=>{
         //---
     }
     else{
-        res.status(401).send()
+        res.status(430).send()
     }
+})
+
+app.get("/user/delete",(req,res)=>{
+    trgt = req.query.coin
+    //remove session from couchdb
+
+    //-------------
+    ssid = req.sessionID.toString()
+    axios
+        .post(couch_url + "/_find",{
+            selector:{
+                sid: ssid
+            }
+        })
+        .then(response => {
+            console.log(`statusCode: ${response.status}`);
+            console.log(response.data);
+            len_doc = response.data.docs.length
+            if(len_doc) user_mail = response.data.docs[0].user;
+            else return res.status(401).send()
+            console.log("USER MAIL: " + user_mail)
+            //=====
+            axios
+                .post(couch_url_data + "/_find",{
+                    selector:{
+                        user:user_mail,
+                        nameasset:trgt,
+                    }
+                })
+                .then(response2 => {
+                    console.log(`statusCode: ${response2.status}`);
+                    docs_ = response2.data.docs
+                    //_______
+                    promises = []
+                    for(const i in docs_){
+                        doc_id = docs_[i]._id
+                        rev = docs_[i]._rev
+                        delete_url = couch_url_data + "/" + doc_id + "/?rev=" + rev
+                        promises.push(axios.delete(delete_url))
+                    }
+                    Promise.all(promises)
+                        .then(res2 => {
+                            console.log(`statusCode: ${res2.status}`);
+                            console.log(res2);
+                            res.status(201).send()
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                    //_________
+                    
+                })
+                .catch(error => {
+                    console.error(error);
+                    return res.send(error)
+                });
+            //=======
+        })
+        .catch(error => {
+            console.error(error);
+            return res.send(error)
+        });
 })
 
 //------------------------------------------//
@@ -263,10 +321,10 @@ app.get("/api/historical_price",(req,res) => {
     var coin = require("./coinapi.json")
     var coin_id = coin[slug]
     var url = "https://rest.coinapi.io/v1/exchangerate/"+coin_id+"/EUR/history?period_id=1DAY&time_start=2022-05-23T00:00:00&time_end=2022-05-29T00:00:00"
-    console.log(url)
+    //console.log(url)
     const config = {
         headers:{
-           "X-CoinAPI-Key": "DAB9D836-CEFD-4539-9F09-74B2DA0B2528"
+           "X-CoinAPI-Key": "9B9FC0B9-40F3-4389-8999-5687AF9D682F" //"DAB9D836-CEFD-4539-9F09-74B2DA0B2528"
         }
     }
     
@@ -286,12 +344,11 @@ app.get("/api/historical_price",(req,res) => {
                     res2.data[6].rate_open,
                 ]
             }
-            console.log(r)
             res.send(r)
         })
         .catch(error => {
             res.send(error)
-            console.error(error)
+            console.error(error) 
         })
 })
 
@@ -307,7 +364,6 @@ app.get("/api/price",(req,res) => {
         .then(res2 => {
             console.log("PRICEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
             var info = res2.data
-            console.log(info.data[id].quote)
             var prezzo = info.data[id].quote.EUR.price
             var percent_24h = info.data[id].quote.EUR.percent_change_24h
             console.log("prezzo "+ slug + ": " + prezzo + "perc24:" + percent_24h)

@@ -9,17 +9,18 @@
     <title>Dashboard</title>
     <!--morris-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> -->
 
     <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
+    
+    <!--axios-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/main.min.css">
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="../css/custom_mcw.css">
 
@@ -73,11 +74,11 @@
 
         
         <!-- Modal -->
-        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog model-dialog-centered">
             <div class="modal-content bg-light" style="border-radius: 30px;">
                 <div class="modal-header text-white border-dark">
-                <h4 class="modal-title fw-bold my-1" id="exampleModalLabel">Add Transaction</h4>
+                <h4 class="modal-title fw-bold my-1" id="ModalLabel">Add Transaction</h4>
                 <button type="button" id="modalclose" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-white my-2">
@@ -114,7 +115,7 @@
                     </form>
                     <div class="row justify-content-center my-2">
                         <div class="col-5 text-center">
-                            <button class="btn btn-primary" @click="submit_new_asset()" style="border-radius: 20px; padding-left: 50px; padding-right: 50px;">Submit</button>
+                            <button class="btn btn-primary" @click="submit_new_asset()" style="border-radius: 10px; padding-left: 50px; padding-right: 50px;">Submit</button>
                         </div>
                         
                     </div>
@@ -148,7 +149,7 @@
                         </ul>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50px;">
                             <i class="fas fa-user-circle"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
@@ -162,23 +163,23 @@
             <!--main content-->
 
 
-            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont">
+            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont"><!--  -->
                 <div class="row" style="padding: 8px;">
                     <div class="col text-start">
                         <h2>Dashboard</h2>
                     </div>
                     <div class="col text-end">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
                             <i class="fas fa-plus-circle"></i>
                             New asset</button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" >
                     <div class="col-12 col-xl-5">
                         <!--4x4-->
                         <div class="container-fluid" style="padding: 0px;">
                             <div class="row align-items-center justify-content-center">
-                                <div class="col-12 col-sm-6 my-4 my-md-0 justify-content-center">
+                                <div class="col-12 col-sm-6 my-4 my-md-0 justify-content-center" >
                                     <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
                                             <h5 class="my-1 card-title">Total profit/loss</h5>
@@ -191,8 +192,8 @@
                                 <div class="col-12 col-sm-6 justify-content-center">
                                     <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
                                         <div class="card-body mx-2">
-                                            <h5 class="my-1 card-title">24h profit/loss</h5>
-                                            <p style="font-size: 25px" class="fw-bold">€{{p_l_24h_val}}</p>
+                                            <h5 class="my-1 card-title">Balance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">€{{total_value}}</p>
                                             <p class="card-text fw-bold" id="p_l_24hperc">{{p_l_24h}}%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
@@ -223,8 +224,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-7 my-3 my-md-0" >
-                        <div class="container-fluid justify-content-center bg-light py-3" style="border-radius: 30px; max-height: 424px;"> 
+                    <div class="col-12 col-xl-7 my-3 my-md-0 mb-md-4" >
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;
+                            @media screen and (max-width: 992px) {
+                            #con_line{
+                                height: 500px;
+                            }
+                            }"> 
                             <div class="row">
                                 <div class="col">
                                     <h2 style="padding-top: 5px; padding-left: 20px;">Balance</h2>
@@ -234,7 +240,7 @@
                                 </div>
                                 
                             </div> 
-                            <div class="container">
+                            <div class="chart-container" style="height: 80%;">
                                 <canvas id="line-chart"></canvas>
                             </div>
                         </div>
@@ -255,16 +261,23 @@
                                         <th class="text-end" scope="col">holdings</th>
                                         <th class="text-end" scope="col">medium load</th>
                                         <th class="text-end" scope="col">profit/loss</th>
+                                        <th class="text-end" scope="col"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="asset in assets" style="line-height: 50px;">
-                                        <td class="fw-bold text-start">{{asset.name}}</th>
-                                        <td class="text-end">{{asset.price}}</td>
-                                        <td class="text-end">{{asset.perc24h}}</td>
+                                    <tr v-for="asset in assets" style="line-height: 49px;">
+                                        <td class="fw-bold text-start text-info">{{asset.name}}</th>
+                                        <td class="text-end">{{asset.price}}€</td>
+                                        <td class="text-end">{{asset.perc24h}}%</td>
                                         <td class="text-end">{{asset.holdings}}</td>
-                                        <td class="text-end">{{asset.med_load}}</td>
-                                        <td class="text-end">{{asset.p_l}}</td>
+                                        <td class="text-end">{{asset.med_load}}€</td>
+                                        <td class="text-end">{{asset.p_l}}€</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-secondary" @click="remove_asset(asset.name, $event)">
+                                                <p style="display:none" >{{asset.name}}</p>
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -273,13 +286,17 @@
                         
                     </div>
                     <div class="col-12 col-xl-5 my-4 my-xl-0 bg-light" style="border-radius: 30px;">
-                        <!-- <div class="container bg-light" > -->
-                            <h2 style="padding-top: 10px; padding-left: 20px;">Asset Allocation</h2>
-                            <div class="container">
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;
+                            @media screen and (max-width: 992px) {
+                            #con_line{
+                                height:500px;
+                            }
+                            }"> 
+                            <h2 style="padding-top: 5px; padding-left: 20px;">Assets Allocation</h2>
+                            <div class="chart-container" style="height: 80%;">
                                 <canvas id="pie-chart"></canvas>
-                            </div> 
-                        <!-- </div> -->
-                        
+                            </div>
+                        </div>        
                     </div>
                     
                 </div>
@@ -288,9 +305,6 @@
         </div>
     </div>
 
-    <!--chartjs-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  -->
-
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
     </script>
@@ -298,10 +312,10 @@
     <!--vueapp-->
     <script src="./dash.js" type="application/javascript"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
     <!-- Popper.JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <!--bootstrap js-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
     <script type="text/javascript">

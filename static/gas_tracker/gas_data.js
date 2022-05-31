@@ -37,7 +37,7 @@ let app = Vue.createApp({
                   console.error(error)
               })
         },
-        myf(){
+        fetch_gas_data(){
             axios 
             .get("http://localhost:8080/api/gas")
             .then(res2 => {
@@ -72,16 +72,16 @@ let app = Vue.createApp({
 
             this.time = 10
         },
-        myf2(){
+        timer_function(){
             this.time -= 1;
         }
     },
 
     created(){
-        this.myf()
+        this.fetch_gas_data()
         this.f_global_data()
-        this.interval2 = setInterval(()=> this.myf2(), 1000)
-        this.interval = setInterval(()=> this.myf(), 10000)
+        this.interval2 = setInterval(()=> this.timer_function(), 1000)
+        this.interval = setInterval(()=> this.fetch_gas_data(), 10000)
     }
 });
 app.mount('#vueAppGas')

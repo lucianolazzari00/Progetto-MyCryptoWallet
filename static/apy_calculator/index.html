@@ -99,7 +99,7 @@
                         </ul>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50px;">
                             <i class="fas fa-user-circle"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
@@ -108,7 +108,7 @@
                         </ul>
                       </div>
                 </div>
-            </nav>
+            </nav> 
 
             <!--main content-->
             <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont">
@@ -120,7 +120,7 @@
                                    <h3 style="padding-top: 12px">APY Calculator</h3> 
                                 </div>
                                 <div class="card-body">
-                                    <form action="" @submit="apy_calc_submit()" @change="calculator()">
+                                    <form @change="calculator()">
                                         <div class="row">
                                             <div class="col">
                                                 <label for="sum" class="form-group">Sum</label>

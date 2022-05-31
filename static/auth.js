@@ -33,15 +33,23 @@ let app = Vue.createApp({
         register_submit(){
             alert_msg = ""
             var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            if(this.emailreg==null){
-                alert_msg += "inserire una email"
+            if(this.emailreg==""){
+                alert_msg += "\ninserire una email"
                 $("#RegInputEmail1").css("border-color","red")
             } else if (!this.emailreg.match(validRegex)) {
-                alert_msg += "inserire una email valida"
+                alert_msg += "\ninserire una email valida"
                 $("#RegInputEmail1").css("border-color","red")
             }
+            if(this.pswreg == ""){
+                alert_msg += "\ninserire una password"
+                $("#RegInputPassword1").css("border-color","red")
+            }
+            if(this.repswreg == ""){
+                alert_msg += "\nreinserire la password"
+                $("#RepeatInputPassword1").css("border-color","red")
+            }
             if (this.pswreg != this.repswreg) {
-                alert_msg += "inserire la stessa password"
+                alert_msg += "\ninserire la stessa password"
                 $("#RegInputPassword1").css("border-color","red")
                 $("#RepeatInputPassword1").css("border-color","red")
             }
@@ -74,10 +82,33 @@ let app = Vue.createApp({
                     alert("user already exist")
                 }
             });
-
+ 
 
         },
         login_submit(){
+            //controllo form
+            console.log(this.email)
+            alert_msg = ""
+            var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            if(this.email==""){
+                alert_msg += "\ninserire una email"
+                $("#InputEmail1").css("border-color","red")
+            } else if (!this.email.match(validRegex)) {
+                alert_msg += "\ninserire una email valida"
+                $("#InputEmail1").css("border-color","red")
+            }
+            console.log(this.psw)
+            if(this.psw == ""){
+                alert_msg += "\ninserisci una password"
+                $("#InputPassword1").css("border-color","red")
+            }
+
+            if(alert_msg!=""){
+                alert(alert_msg)
+                return
+            }
+            //--------
+
             dataa = { 
                 email:this.email,
                 psw:this.psw
