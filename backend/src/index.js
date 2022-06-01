@@ -99,7 +99,6 @@ app.post("/sign-in", async (req,res)=>{
         })
         .then(response => {
             console.log(`statusCode: ${response.status}`);
-            //console.log(response);
 
         })
         .catch(error => {
@@ -127,7 +126,6 @@ app.get("/logout",(req,res)=>{
             })
             .then(response => {
                 console.log(`statusCode: ${response.status}`);
-                console.log(response.data);
                 doc_id = response.data.docs[0]._id
                 rev = response.data.docs[0]._rev
                 delete_url = couch_url + "/" + doc_id + "/?rev=" + rev
@@ -136,7 +134,6 @@ app.get("/logout",(req,res)=>{
                     .delete(delete_url)
                     .then(res2 => {
                         console.log(`statusCode: ${response.status}`);
-                        console.log(response);
                     })
                     .catch(error => {
                         console.error(error);
@@ -156,7 +153,6 @@ app.get("/logout",(req,res)=>{
 couch_url_data =  "http://admin:admin@couchdb:5984/users_data"
 
 app.post("/user/datas",(req,res)=>{
-    console.log(req.body)
     if(req.session.isAuth){
         ssid = req.sessionID.toString()
         //-----
@@ -168,7 +164,6 @@ app.post("/user/datas",(req,res)=>{
             })
             .then(response => {
                 console.log(`statusCode: ${response.status}`);
-                console.log(response.data);
                 user_mail = response.data.docs[0].user
                 //-----
                 axios
@@ -181,7 +176,6 @@ app.post("/user/datas",(req,res)=>{
                     })
                     .then(response2 => {
                         console.log(`statusCode: ${response2.status}`);
-                        console.log(response2.body);
                     })
                     .catch(error2 => {
                         console.error(error2);
@@ -200,7 +194,7 @@ app.post("/user/datas",(req,res)=>{
     }
     else{
         //send error
-        res.status(401).send()
+        res.status(430).send()
     }
 })
 
@@ -216,11 +210,10 @@ app.get("/user/datas", (req,res)=>{
             })
             .then(response => {
                 console.log(`statusCode: ${response.status}`);
-                console.log(response.data);
                 len_doc = response.data.docs.length
                 if(len_doc) user_mail = response.data.docs[0].user;
                 else return res.status(401).send()
-                console.log("USER MAIL: " + user_mail)
+                console.log("usermail : " + user_mail)
                 //-----
                 axios
                     .post(couch_url_data + "/_find",{
@@ -230,7 +223,6 @@ app.get("/user/datas", (req,res)=>{
                     })
                     .then(response => {
                         console.log(`statusCode: ${response.status}`);
-                        console.log(response.data);
                         res.send(JSON.stringify(response.data.docs))
                     })
                     .catch(error => {
@@ -264,11 +256,9 @@ app.get("/user/delete",(req,res)=>{
         })
         .then(response => {
             console.log(`statusCode: ${response.status}`);
-            console.log(response.data);
             len_doc = response.data.docs.length
             if(len_doc) user_mail = response.data.docs[0].user;
             else return res.status(401).send()
-            console.log("USER MAIL: " + user_mail)
             //=====
             axios
                 .post(couch_url_data + "/_find",{
@@ -291,7 +281,6 @@ app.get("/user/delete",(req,res)=>{
                     Promise.all(promises)
                         .then(res2 => {
                             console.log(`statusCode: ${res2.status}`);
-                            console.log(res2);
                             res.status(201).send()
                         })
                         .catch(error => {
@@ -324,14 +313,13 @@ app.get("/api/historical_price",(req,res) => {
     //console.log(url)
     const config = {
         headers:{
-           "X-CoinAPI-Key": "9B9FC0B9-40F3-4389-8999-5687AF9D682F" //"DAB9D836-CEFD-4539-9F09-74B2DA0B2528"
+           "X-CoinAPI-Key":  "DAB9D836-CEFD-4539-9F09-74B2DA0B2528" //"9B9FC0B9-40F3-4389-8999-5687AF9D682F"
         }
     }
     
     axios
         .get(url,config)
         .then(res2 => {
-            console.log("Historical")
             var info = res2.data
             r = {
                 coin : slug,
@@ -362,11 +350,9 @@ app.get("/api/price",(req,res) => {
     axios
         .get(options)
         .then(res2 => {
-            console.log("PRICEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
             var info = res2.data
             var prezzo = info.data[id].quote.EUR.price
             var percent_24h = info.data[id].quote.EUR.percent_change_24h
-            console.log("prezzo "+ slug + ": " + prezzo + "perc24:" + percent_24h)
             res.json({"prezzo" : prezzo, "name" : slug, "percent_24h" : percent_24h})
         })
         .catch(error => {
@@ -387,9 +373,6 @@ app.get("/api/stats", (req,res) => {
                     var  total_market_cap = info.data.quote.EUR.total_market_cap
                     var btc_dominance = info.data.btc_dominance
                     var total_volume_24h = info.data.quote.EUR.total_volume_24h
-                    console.log("total_market_cap: " + total_market_cap)
-                    console.log("btc_dominance: " + btc_dominance)
-                    console.log("total_volume_24h: " + total_volume_24h)
 
                     res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
                 })
@@ -398,7 +381,7 @@ app.get("/api/stats", (req,res) => {
                 })
     }
     else{
-        res.status(401).send()
+        res.status(430).send()
     }
 
     
@@ -416,19 +399,15 @@ app.get("/api/gas", (req,res) => {
                     var low = info.result.SafeGasPrice
                     var average = info.result.ProposeGasPrice
                     var high = info.result.FastGasPrice
-                    console.log("low: " + low)
-                    console.log("average: " + average)
-                    console.log("high: " + high)
                     res.json({"low" : low, "average" : average, "high" : high})
                     //res.status(200).send()
                 })
                 .catch(error => {
-                    console.log("ERROREE")
                     console.error(error)
                 })
     }
     else{
-        res.status(401).send()
+        res.status(430).send()
     }
     
 }) 
@@ -439,8 +418,12 @@ app.get("/isAuth", isAuth, (req,res)=>{
     res.status.send(200)
 })
 
-app.get("/auth", (req,res)=>{
-    res.send(req.session.isAuth) 
+app.get("/", (req,res)=>{
+    if(req.session.isAuth){
+        res.redirect('/static/dashboard/index.html')
+    } else {
+        res.redirect('/static/index.html')
+    }
 })
 
  

@@ -128,7 +128,7 @@ let app = Vue.createApp({
                         $("#InputPassword1").css("border-color","red")
                     },
                     400: function(res){
-                        alert("no acoount registered with this email")
+                        alert("no account registered with this email")
                         $("#InputEmail1").css("border-color","red")
                     }
                 }

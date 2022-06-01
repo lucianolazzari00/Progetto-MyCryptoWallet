@@ -9,8 +9,6 @@
     <title>Dashboard</title>
     <!--morris-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> -->
 
     <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
@@ -131,7 +129,7 @@
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary" @click="toggle_sidebar()">
                         <i class="fas fa-align-justify"></i>
                     </button>
 
@@ -194,7 +192,7 @@
                                         <div class="card-body mx-2">
                                             <h5 class="my-1 card-title">Balance</h5>
                                             <p style="font-size: 25px" class="fw-bold">€{{total_value}}</p>
-                                            <p class="card-text fw-bold" id="p_l_24hperc">{{p_l_24h}}%</p>
+                                            <p class="card-text fw-bold" id="p_l_24hperc">{{var_balance_24h}}%</p>
                                             <p class="card-text text-white"> last 24h</p>
                                         </div>
                                     </div>
@@ -225,12 +223,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-xl-7 my-3 my-md-0 mb-md-4" >
-                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;
-                            @media screen and (max-width: 992px) {
-                            #con_line{
-                                height: 500px;
-                            }
-                            }"> 
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;"> 
                             <div class="row">
                                 <div class="col">
                                     <h2 style="padding-top: 5px; padding-left: 20px;">Balance</h2>
@@ -240,7 +233,7 @@
                                 </div>
                                 
                             </div> 
-                            <div class="chart-container" style="height: 80%;">
+                            <div class="chart-container" style="height: 90%;">
                                 <canvas id="line-chart"></canvas>
                             </div>
                         </div>
@@ -285,15 +278,15 @@
                         </div>
                         
                     </div>
-                    <div class="col-12 col-xl-5 my-4 my-xl-0 bg-light" style="border-radius: 30px;">
-                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;
+                    <div class="col-12 col-xl-5 my-4 my-xl-0 ">
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_pipe" style="border-radius: 30px; height:100%;
                             @media screen and (max-width: 992px) {
-                            #con_line{
+                            #con_pipe{
                                 height:500px;
                             }
                             }"> 
                             <h2 style="padding-top: 5px; padding-left: 20px;">Assets Allocation</h2>
-                            <div class="chart-container" style="height: 80%;">
+                            <div class="chart-container" style="height: 70%;">
                                 <canvas id="pie-chart"></canvas>
                             </div>
                         </div>        
@@ -311,32 +304,9 @@
 
     <!--vueapp-->
     <script src="./dash.js" type="application/javascript"></script>
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
-    <!-- Popper.JS -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    bootstrap js -->
+    <!--bootstrapjs-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                if ($('.sb-act').css('display')=='none'){
-                    $('.sb-act').css('display','block');
-                }
-                else if ($('.sb-act').css('display')=='block'){
-                    $('.sb-act').css('display','none');
-                };
-                if ($('.sb-nact').css('display')=='block'){
-                    $('.sb-nact').css('display','none');
-                }
-                else if ($('.sb-nact').css('display')=='none'){
-                    $('.sb-nact').css('display','block');
-                };
-            });
-        });
-    </script>
 </body>
 
 </html>

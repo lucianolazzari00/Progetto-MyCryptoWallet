@@ -66,7 +66,10 @@ let app = Vue.createApp({
             //--
             })
             .catch(error => {
-                window.location.replace("/static/index.html")
+                if(error.response.status==430){
+                    window.location.replace("/static/index.html")
+                }
+                
                 console.error(error)
             })
 

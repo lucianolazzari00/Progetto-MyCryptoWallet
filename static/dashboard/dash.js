@@ -24,6 +24,7 @@ let app = Vue.createApp({
             pie_chart : null,
             line_chart: null,
             historical_balance : [0,0,0,0,0,0,0],
+            var_balance_24h : 0
     }
     },
     methods: {
@@ -46,6 +47,13 @@ let app = Vue.createApp({
                             this.historical_balance[j] += info.price[j] * hold
                         }
                         this.line_chart_update()
+                        this.var_balance_24h = ((this.historical_balance[6]-this.historical_balance[5])/this.historical_balance[5]).toFixed(2)
+                        
+                        if(this.var_balance_24h >= 0){
+                            $("#p_l_24hperc").css('color','greenyellow')
+                        } else {
+                            $("#p_l_24hperc").css('color','red')
+                        }
                     })
                     .catch(error => {
                         console.error(error)
@@ -205,7 +213,7 @@ let app = Vue.createApp({
             this.total_p_l = (this.total_value-this.total_invested).toFixed(2)
             this.total_value = (this.total_value).toFixed(2) 
             this.total_invested = (this.total_invested).toFixed(2) 
-            this.total_p_l_percent = (this.total_p_l/100).toFixed(2)
+            this.total_p_l_percent = ((this.total_p_l/this.total_invested)*100).toFixed(2)
 
             if(this.total_p_l_percent >= 0){
                 $("#perc").css('color','greenyellow')
@@ -213,11 +221,6 @@ let app = Vue.createApp({
                 $("#perc").css('color','red')
             }
 
-            if(this.p_l_24h >= 0){
-                $("#p_l_24hperc").css('color','greenyellow')
-            } else {
-                $("#p_l_24hperc").css('color','red')
-            }
             
             if(this.profit_bf >= 0){
                 $("#p_bf").css('color','greenyellow')
@@ -366,18 +369,8 @@ let app = Vue.createApp({
         },
 
         remove_asset(name,event){
-            console.log(name)
             target_to_del = name
 
-            /*axios
-                .get("http://localhost:8080/user/delete?coin="+ target_to_del)
-                .then(res3 => {
-                    this.fetch_user_datas()
-                        .then((ret) => this.fetch_coin_price())
-                })
-                .catch(error => {
-                    console.error(error)
-                })*/
                 ftc = this.fetch_user_datas
                 ftc2 = this.fetch_coin_price
     
@@ -448,14 +441,14 @@ let app = Vue.createApp({
         })
 
         this.pie_chart = chart
-        },
+        }, 
 
 
         initialize_line_chart(){
             let linechart = document.getElementById("line-chart").getContext('2d')
             
             let mylabels = ["-6","-5","-4","-3","-2","-1","Today"]
-            let mydata = []// [10000,11000,9890,7890,5678,10001,12001,23000]
+            let mydata = []
 
             let chart = new Chart(linechart,{
                 type : 'line',
@@ -497,6 +490,30 @@ let app = Vue.createApp({
 
             this.line_chart.update()
         },
+
+        chart_re_render(){
+            console.log("renderinmg")
+            this.line_chart.destroy()
+            setTimeout(() => this.initialize_line_chart(), 50)
+            setTimeout(() => this.line_chart_update(), 80)
+        },
+
+        toggle_sidebar(){
+            $('#sidebar').toggleClass('active');
+            if ($('.sb-act').css('display')=='none'){
+                $('.sb-act').css('display','block');
+            }
+            else if ($('.sb-act').css('display')=='block'){
+                $('.sb-act').css('display','none');
+            };
+            if ($('.sb-nact').css('display')=='block'){
+                $('.sb-nact').css('display','none');
+            }
+            else if ($('.sb-nact').css('display')=='none'){
+                $('.sb-nact').css('display','block');
+            };
+            setTimeout(() => this.chart_re_render(), 50)
+        }
     },
 
 
