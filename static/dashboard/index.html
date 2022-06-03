@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Dashboard</title>
+    <!--morris-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <!--vuejs-->
+    <script src="https://unpkg.com/vue@3"></script>
+    
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/main.min.css">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../css/custom_mcw.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body id="vueApp">
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav class="bg-light" id="sidebar">
+            <div class="sidebar-header">
+                <h3>MyCryptoWallet</h3>
+                <strong>MCW</strong>
+            </div>
+
+            <ul class="list-unstyled components" style="margin-top: 5vh;">
+                <li class="active " class="my-3">
+                    <a href="#" class="sb-act">
+                        <i class="fas fa-chart-bar"></i>
+                    </a>
+                    <a href="#" class="sb-nact">
+                        <i class="fas fa-chart-bar"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="my-3">
+                    <a href="../gas_tracker/index.html" class="sb-act">
+                        <i class="fas fa-gas-pump"></i>
+                    </a>
+                    <a href="../gas_tracker/index.html" class="sb-nact">
+                        <i class="fas fa-gas-pump"></i>
+                        Gas Tracker
+                    </a>
+                </li>
+                <li class="my-3">
+                    <a href="../apy_calculator/index.html" class="sb-act">
+                        <i class="fas fa-calculator"></i>
+                    </a>
+                    <a href="../apy_calculator/index.html" class="sb-nact">
+                        <i class="fas fa-calculator"></i>
+                        ROI Calculator
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+
+        
+        <!-- Modal -->
+        <div class="modal" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog model-dialog-centered">
+            <div class="modal-content bg-light" style="border-radius: 30px;">
+                <div class="modal-header text-white border-dark">
+                <h4 class="modal-title fw-bold my-1" id="ModalLabel">Add Transaction</h4>
+                <button type="button" id="modalclose" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-white my-2">
+                    <form>
+                        <label for="name" class="form-label">Asset Name</label>
+                        <br>
+                        <select class="form-select" name="name" id="name" v-model="nameasset">
+                            <option value="bitcoin" selected> Bitcoin</option>
+                            <option value="ethereum"> Ethereum</option>
+                            <option value="cardano"> Cardano</option>
+                            <option value="tether"> Tether</option>
+                            <option value="convex-finance"> Convex-finance</option>
+                            <option value="bnb"> Bnb</option>
+                            <option value="xrp"> Xrp</option>
+                            <option value="polkadot"> Polkadot</option>
+                            <option value="solana"> Solana</option>
+                            <option value="cronos"> Cronos</option>
+                          </select>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="quantity" class="form-label" focus>Quantity</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="0.00" v-model="quantity" required autofocus>
+                            </div>
+                            <div class="col">
+                                <label for="ppc" class="form-label">Price Per Coin</label>
+                                <input type="number" class="form-control" id="ppc" placeholder="" v-model="price" required>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="data" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="data" placeholder="e.g Bitcoin" v-model="date" required>
+                        <br>
+                    </form>
+                    <div class="row justify-content-center my-2">
+                        <div class="col-5 text-center">
+                            <button class="btn btn-primary" @click="submit_new_asset()" style="border-radius: 10px; padding-left: 50px; padding-right: 50px;">Submit</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Page Content  -->
+
+        <div id="content" class="text-white">
+            <!--navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary" @click="toggle_sidebar()">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link">Market Cap : {{total_market_cap}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">BTC Dominance: {{btc_dominance}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">Volume 24h: {{total_volume_24h}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 50px;">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                          <li><a class="dropdown-item" >{{username}}</a></li>
+                          <li><a class="dropdown-item" href="/logout">logout</a></li>
+                        </ul>
+                      </div>
+                </div>
+            </nav>
+            
+            <!--main content-->
+
+
+            <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont"><!--  -->
+                <div class="row" style="padding: 8px;">
+                    <div class="col text-start">
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div class="col text-end">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
+                            <i class="fas fa-plus-circle"></i>
+                            New asset</button>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-12 col-xl-5">
+                        <!--4x4-->
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-12 col-sm-6 my-4 my-md-0 justify-content-center" >
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h5 class="my-1 card-title">Total profit/loss</h5>
+                                            <p style="font-size: 25px" class="fw-bold">€{{total_p_l}}</p>
+                                            <p class="card-text fw-bold" id="perc">{{total_p_l_percent}}%</p>
+                                            <p class="card-text text-white"> all time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 justify-content-center">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h5 class="my-1 card-title">Balance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">€{{total_value}}</p>
+                                            <p class="card-text fw-bold" id="p_l_24hperc">{{var_balance_24h}}%</p>
+                                            <p class="card-text text-white"> last 24h</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-md-4 align-items-center justify-content-center">
+                                <div class="col-12 col-sm-6 my-4 my-md-0">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h5 class="my-1 card-title">Worst performance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">{{worst_performer}}</p>
+                                            <p class="card-text fw-bold" id="p_wf">{{profit_wf}}%</p>
+                                            <p class="card-text text-white"> all time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div style="border-radius: 30px; min-height:200px; height:fit-content" class="card border-0 bg-light">
+                                        <div class="card-body mx-2">
+                                            <h5 class="my-1 card-title">Best performance</h5>
+                                            <p style="font-size: 25px" class="fw-bold">{{best_performer}}</p>
+                                            <p class="card-text fw-bold" id="p_bf">{{profit_bf}}%</p>
+                                            <p class="card-text text-white"> all time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-7 my-3 my-md-0 mb-md-4" >
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_line" style="border-radius: 30px; height:100%;"> 
+                            <div class="row">
+                                <div class="col">
+                                    <h2 style="padding-top: 5px; padding-left: 20px;">Balance</h2>
+                                </div>
+                                <div class="col text-end">
+                                    <h6 style="padding-top: 15px; padding-left: 20px;">Last seven days</h6>
+                                </div>
+                                
+                            </div> 
+                            <div class="chart-container" style="height: 80%;">
+                                <canvas id="line-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    
+                    <div class="col-12 col-xl-7 pe-xl-4" >
+                        <div class="container-fluid bg-light" style="border-radius: 30px; ">
+                            <h2 style="padding-top: 10px; padding-left: 20px;">Assets</h2>
+                            <div class="table-responsive" style="max-height: 295px;">  
+                                <table class="table table-light table-hover" style="line-height: 18px;">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">name</th>
+                                        <th class="text-end" scope="col">price</th>
+                                        <th class="text-end" scope="col">24h variation</th>
+                                        <th class="text-end" scope="col">holdings</th>
+                                        <th class="text-end" scope="col">medium load</th>
+                                        <th class="text-end" scope="col">profit/loss</th>
+                                        <th class="text-end" scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="asset in assets" style="line-height: 49px;">
+                                        <td class="fw-bold text-start text-info">{{asset.name}}</th>
+                                        <td class="text-end">{{asset.price}}€</td>
+                                        <td class="text-end">{{asset.perc24h}}%</td>
+                                        <td class="text-end">{{asset.holdings}}</td>
+                                        <td class="text-end">{{asset.med_load}}€</td>
+                                        <td class="text-end">{{asset.p_l}}€</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-secondary" @click="remove_asset(asset.name, $event)">
+                                                <p style="display:none" >{{asset.name}}</p>
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-12 col-xl-5 my-4 my-xl-0 ">
+                        <div class="container-fluid justify-content-center bg-light py-3" id="con_pipe" style="border-radius: 30px; height:100%;
+                            @media screen and (max-width: 992px) {
+                            #con_pipe{
+                                height:500px;
+                            }
+                            }"> 
+                            <h2 style="padding-top: 5px; padding-left: 20px;">Assets Allocation</h2>
+                            <div class="chart-container" style="height: 70%;">
+                                <canvas id="pie-chart"></canvas>
+                            </div>
+                        </div>        
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+    <!--vueapp-->
+    <script src="./dash.js" type="application/javascript"></script>
+    <!--bootstrapjs-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
