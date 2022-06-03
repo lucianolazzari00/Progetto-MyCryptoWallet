@@ -12,6 +12,7 @@ Per il backend è stata realizzata una infrastruttura conteinerizzata orchestrat
 
 per avviare l'applicazione:
 
+0) posizionarsi nella cartella /backend/.docker
 1) buildare le immagini docker con il comando: $docker-compose build
 2) avviare i container docker con: $docker-compose up
 3) connettersi all'indirizzo: localhost:8080
