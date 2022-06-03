@@ -313,7 +313,7 @@ app.get("/api/historical_price",(req,res) => {
     //console.log(url)
     const config = {
         headers:{
-           "X-CoinAPI-Key":  "DAB9D836-CEFD-4539-9F09-74B2DA0B2528" //"9B9FC0B9-40F3-4389-8999-5687AF9D682F"
+           "X-CoinAPI-Key": "64B1EFE1-C4BF-41A0-BA2A-1FC398250CDB"//"DAB9D836-CEFD-4539-9F09-74B2DA0B2528" //"9B9FC0B9-40F3-4389-8999-5687AF9D682F"
         }
     }
     
@@ -342,7 +342,7 @@ app.get("/api/historical_price",(req,res) => {
 
 app.get("/api/price",(req,res) => {
     var slug = req.query.coin
-    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
+    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"
     
     var coin = require("./coin.json") 
     var id = coin[slug]
@@ -364,7 +364,7 @@ app.get("/api/price",(req,res) => {
 app.get("/api/stats", (req,res) => {
 
     if(req.session.isAuth){
-        var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=c58cb269-b94b-4590-8593-88278eeb1d20"
+        var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"//c58cb269-b94b-4590-8593-88278eeb1d20"
 
             axios
                 .get(options)
