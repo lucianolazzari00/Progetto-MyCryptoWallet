@@ -3,11 +3,13 @@ const session = require("express-session")
 const axios = require("axios")
 const mongoose = require("mongoose")
 const MongoDBSession = require("connect-mongodb-session")(session)
+const amqp = require('amqplib/callback_api');
 const app = express()
 
 //---------login/logout/registration----------//
 
 const userModel = require('./models/User.js')
+const { response } = require("express")
 urldb = 'mongodb://mongo:27017/sessions'
 
 //connect DB
@@ -303,6 +305,33 @@ app.get("/user/delete",(req,res)=>{
 
 //------------------------------------------//
 
+//----prova amqp-------
+app.get("/prova_amqp",(req,res)=>{
+    msggg = req.query.m
+    amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
+    if (err) {
+        throw err;
+    }
+    connection.createChannel(function(error1, channel) {
+        if (error1) {
+        throw error1;
+        }
+        var queue = 'mail_queue1';
+        var msg = msggg
+
+        channel.assertQueue(queue, {
+            durable: true
+        });
+        channel.sendToQueue(queue, Buffer.from(msg), {
+            persistent: true
+        });
+        console.log("Sent '%s'", msg);
+    });
+    });
+    res.send("message_sent")
+})
+//---------------------
+
 //------------------API---------------------//
 
 app.get("/api/historical_price",(req,res) => {
@@ -411,6 +440,111 @@ app.get("/api/gas", (req,res) => {
     }
     
 }) 
+
+//------------------------------------------//
+
+//-----------------oAUTH--------------------//
+
+client_id = '604330685226-2kl8rfn08enu50jjm874dg0mh55bompn.apps.googleusercontent.com'
+client_secret = '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'
+red_uri= 'http://localhost:8080/oauth/getToken';
+acc_token = ''
+
+//first step
+app.get("/oauth/init", (req,res)=>{
+    res.redirect("https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/calendar&response_type=code&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri="+red_uri+"&client_id="+client_id);
+});
+
+//second step
+app.get('/oauth/getToken', function(req, res){
+    console.log("code taken");
+  
+    var formData = {
+      code: req.query.code,
+      client_id: client_id,
+      client_secret: client_secret,
+      redirect_uri: red_uri,
+      grant_type: 'authorization_code'
+    }
+    
+    axios
+        .post('https://www.googleapis.com/oauth2/v4/token',formData)
+        .then(response =>{
+            acc_token = response.data.access_token
+            console.log(response)
+            console.log("access token: " + acc_token)
+            res.redirect('http://localhost:8080/static/calendar/index.html?authorized=true')
+        })
+        .catch(err => {
+            console.log(err) 
+        })
+});
+
+app.get('/oauth/get_calendars', function(req, res){
+    console.log('access_token:' + acc_token)
+
+    const config = {
+        headers:{
+            'Authorization': 'Bearer '+ acc_token
+        }
+    }
+
+    axios
+        .get('https://www.googleapis.com/calendar/v3/users/me/calendarList',config)
+        .then(response =>{
+            console.log(response.data)
+            calendars = response.data.items
+            i_mcw = 0
+            for (var i in calendars){
+                if(calendars[i].summary == "MCW"){
+                    i_mcw = i
+                }
+            }
+            cal_id =  calendars[i_mcw].id
+            //-------------
+            axios
+                .get('https://www.googleapis.com/calendar/v3/calendars/' + cal_id + '/events',config)
+                .then(response2 =>{
+                    console.log(response2.data)
+                    res.send(response2.data)
+                })
+                .catch(error2 =>{
+                    console.log(error2)
+                })
+            //-------------
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+
+    //----------------
+    /*
+    var options = {
+    url: 'https://www.googleapis.com/calendar/v3/users/me/calendarList',
+    headers: {
+      'Authorization': 'Bearer '+a_t
+      }
+    };
+    request.get(options, function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log("SUCCESSSSS")
+      var info = JSON.parse(body);
+      console.log(info);
+      console.log(info.items)
+      var i_mcw;
+      for(var i in info.items){
+        if(info.items[i].summary == 'MCW') i_mcw = i;
+      }
+      cal_id = info.items[i_mcw].id
+      request.get()
+      }
+    else {
+      console.log("ERROR")
+      console.log(error);
+    }
+    });
+  */
+  });
 
 //------------------------------------------//
 

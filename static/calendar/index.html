@@ -6,15 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ROI Calculator</title>
+    <title>Calenadar</title>
     <!--morris-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-    <!--chartjs-->
-    
-
 
     <!--vuejs-->
     <script src="https://unpkg.com/vue@3"></script>
@@ -31,7 +27,7 @@
 
 </head>
 
-<body id="vueAppApyCalc">
+<body id="vueAppCalendar">
 
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -60,16 +56,16 @@
                         Gas Tracker
                     </a>
                 </li>
-                <li class="my-3">
-                    <a href="../calendar/index.html" class="sb-act">
+                <li class="active my-3">
+                    <a href="#" class="sb-act">
                         <i class="fas fa-calendar-check"></i>
                     </a>
-                    <a href="../calendar/index.html" class="sb-nact">
+                    <a href="#" class="sb-nact">
                         <i class="fas fa-calendar-check"></i>
                         Calendar
                     </a>
                 </li>
-                <li class="active my-3">
+                <li class="my-3">
                     <a href="../apy_calculator/index.html" class="sb-act">
                         <i class="fas fa-calculator"></i>
                     </a>
@@ -123,67 +119,48 @@
             <div class="container-fluid" style="padding-left: 30px; padding-right: 30px; display: none;" id="main_cont">
                 <div class="container">
                     <div class="row justify-content-center align-content-center" style="height: 100vh">
-                        <div class="col col-sm-10 col-md-8 col-lg-5 col-xl-4 text-center">
+                        <div class="col col-sm-10 col-md-8 col-lg-7 col-xl-6 text-center">
                             <div class="card bg-light" style="border-radius: 30px">
                                 <div class="card-header align-items-center">
-                                   <h3 style="padding-top: 12px">APY Calculator</h3> 
+                                   <h3 style="padding-top: 12px">Next Events</h3> 
                                 </div>
                                 <div class="card-body">
-                                    <form @change="calculator()">
-                                        <div class="row">
-                                            <div class="col">
-                                                <label for="sum" class="form-group">Sum</label>
-                                                <input type="number" class="form-control" name="sum" id="sum" placeholder="0.00" v-model="sumField" @input="calculator()">
-                                                <br>
-                                            </div>
-                                            <div class="col">
-                                                <label for="tax" class="form-group">Interest Tax</label>
-                                                <input type="number" class="form-control" name="tax" id="tax" placeholder="0.00" v-model="interestField" @input="calculator()">
-                                                <br>
-                                            </div>
-                                        </div>
-                                        <label class="form-group">Time</label>
-                                        <br>
-                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group1">
-
-                                            <input type="radio" class="btn-check" checked="checked" name="btnradio" id="btnradio1" value="1" autocomplete="off" @change="time_radio_updater($event)">
-                                            <label class="btn btn-outline-secondary" for="btnradio1">1d</label>
-                                          
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="7" autocomplete="off" @change="time_radio_updater($event)">
-                                            <label class="btn btn-outline-secondary" for="btnradio2">7d</label>
-                                          
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="30" autocomplete="off" @change="time_radio_updater($event)">
-                                            <label class="btn btn-outline-secondary" for="btnradio3">30d</label>
-
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="365" autocomplete="off" @change="time_radio_updater($event)">
-                                            <label class="btn btn-outline-secondary" for="btnradio4">1y</label>
-
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="1825" autocomplete="off" @change="time_radio_updater($event)">
-                                            <label class="btn btn-outline-secondary" for="btnradio5">5y</label>
-                                          </div>
-                                        
-                                        <br>
-                                        <br>
-                    
-                                        <div class="card border-0 bg-light">
-                                            <div class="card-body bg-primary align-content-center" style="margin-top: 15px; border-radius: 20px;">
-                                                <h3 style="padding-top: 10px;">{{result}}€</h3>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <button type="reset" class="btn btn-primary" @click="reset_result()">reset</button>
-                                    </form>
+                                    <div class="table-responsive" style="max-height: 295px;">  
+                                        <table class="table table-light table-hover" style="line-height: 18px;">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Event</th>
+                                                <th class="text-end" scope="col">date</th>
+                                                <th class="text-end" scope="col">time</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="event in events" style="line-height: 49px;">
+                                                <td class="fw-bold text-start text-info">{{event.name}}</th>
+                                                <td class="text-end">{{event.date}}</td>
+                                                <td class="text-end">{{event.time}}</td>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-8 text-end">
+                                    <button class="btn btn-primary my-4" @click ="oauth_init()"> </i>Link Google Calendar</button>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
-    <script src="./apy_calc.js" type="application/javascript"></script>
+    <script src="./cal.js" type="application/javascript"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
