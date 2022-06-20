@@ -18,7 +18,7 @@ let app = Vue.createApp({
     methods: {
         f_global_data(){
             axios
-              .get("http://localhost:8080/api/stats")
+              .get("https://localhost:8083/api/stats")
               .then(res3 => {
                 
                 var info2 = res3.data
@@ -39,7 +39,7 @@ let app = Vue.createApp({
         },
         fetch_gas_data(){
             axios 
-            .get("http://localhost:8080/api/gas")
+            .get("https://localhost:8083/api/gas")
             .then(res2 => {
             
             var info = res2.data
@@ -53,7 +53,7 @@ let app = Vue.createApp({
             this.fast = info.high
 
             //--
-            axios.get('http://localhost:8080/api/price?coin=ethereum')
+            axios.get('https://localhost:8083/api/price?coin=ethereum')
                 .then(response2 => {
                     coin_price = response2.data.prezzo.toFixed(2)
                     this.slow_eur = (parseFloat(this.slow) * 0.000000001 * coin_price *21000).toFixed(2)

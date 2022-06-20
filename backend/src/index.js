@@ -53,8 +53,10 @@ const isAuth = (req,res,next) => {
 }
 
 app.post("/sign-up", async(req,res)=>{
+    console.log("SIGN_UP [POST]")
     email = req.body.email
     psw = req.body.psw
+    console.log(email + "!!" + psw)
 
     let user = await userModel.findOne({email})
 
@@ -70,7 +72,7 @@ app.post("/sign-up", async(req,res)=>{
     });
 
     await user.save()
-    
+    console.log("USER SALVATO")
     res.status(201).send()
 })
 
@@ -447,7 +449,7 @@ app.get("/api/gas", (req,res) => {
 
 client_id = '604330685226-2kl8rfn08enu50jjm874dg0mh55bompn.apps.googleusercontent.com'
 client_secret = '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'
-red_uri= 'http://localhost:8080/oauth/getToken';
+red_uri= 'https://localhost:8083/oauth/getToken';
 acc_token = ''
 
 //first step
@@ -473,7 +475,7 @@ app.get('/oauth/getToken', function(req, res){
             acc_token = response.data.access_token
             console.log(response)
             console.log("access token: " + acc_token)
-            res.redirect('http://localhost:8080/static/calendar/index.html?authorized=true')
+            res.redirect('https://localhost:8083/static/calendar/index.html?authorized=true')
         })
         .catch(err => {
             console.log(err) 

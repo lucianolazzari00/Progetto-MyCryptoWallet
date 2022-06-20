@@ -12,7 +12,7 @@ let app = Vue.createApp({
     methods: {
         f_global_data(){
             axios
-                .get("http://localhost:8080/api/stats")
+                .get("https://localhost:8083/api/stats")
                 .then(res3 => {
                     var info2 = res3.data
                     
@@ -34,7 +34,7 @@ let app = Vue.createApp({
         },
         get_calendar_data(){
             axios
-                .get('http://localhost:8080/oauth/get_calendars')
+                .get('https://localhost:8083/oauth/get_calendars')
                 .then(response =>{
                     console.log(response.data)
                     ev_list = response.data.items
@@ -55,7 +55,7 @@ let app = Vue.createApp({
         },
         oauth_init(){
             if(url_param=='true') return;
-            window.location.replace('http://localhost:8080/oauth/init')
+            window.location.replace('https://localhost:8083/oauth/init')
         }
     },
     created(){
