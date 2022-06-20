@@ -33,7 +33,7 @@ let app = Vue.createApp({
             ass = this.assets
             for(const i in this.assets){
                 name_c = ass[i].name
-                axios.get("http://localhost:8080/api/historical_price?coin=" + name_c)
+                axios.get("https://localhost:8083/api/historical_price?coin=" + name_c)
                     .then(res3 => {
                         info = res3.data
                         for(let j=0;j<7;j++){
@@ -65,7 +65,7 @@ let app = Vue.createApp({
         f_global_data(){
             return new Promise((resolve,reject)=>{
                 axios
-                    .get("http://localhost:8080/api/stats")
+                    .get("https://localhost:8083/api/stats")
                     .then(res3 => {
                         
                         var info2 = res3.data
@@ -91,7 +91,7 @@ let app = Vue.createApp({
         fetch_user_datas(){
             return new Promise((resolve,reject)=>{
                 this.assets = []
-                axios.get('http://localhost:8080/user/datas')
+                axios.get('https://localhost:8083/user/datas')
                     .then(response => {
 
                         datas = response.data
@@ -143,7 +143,7 @@ let app = Vue.createApp({
             promises = []
             for(var j=0;j<n_assets;j++){
                 var coin = this.assets[j].name
-                promises.push(axios.get('http://localhost:8080/api/price?coin='+coin))
+                promises.push(axios.get('https://localhost:8083/api/price?coin='+coin))
             }
             Promise.all(promises)
                 .then(values => {
@@ -351,7 +351,7 @@ let app = Vue.createApp({
                 price: this.price,
                 date: this.date, 
             };
-            var url = "http://localhost:8080/user/datas";
+            var url = "https://localhost:8083/user/datas";
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -374,7 +374,7 @@ let app = Vue.createApp({
                 ftc = this.fetch_user_datas
                 ftc2 = this.fetch_coin_price
     
-                var url ="http://localhost:8080/user/delete?coin="+ target_to_del;
+                var url ="https://localhost:8083/user/delete?coin="+ target_to_del;
                 $.ajax({
                     type: 'GET',
                     url: url,

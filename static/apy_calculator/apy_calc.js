@@ -13,7 +13,7 @@ let app = Vue.createApp({
     methods: {
         f_global_data(){
             axios
-                .get("http://localhost:8080/api/stats")
+                .get("https://localhost:8083/api/stats")
                 .then(res3 => {
                     var info2 = res3.data
                     

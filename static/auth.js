@@ -67,21 +67,22 @@ let app = Vue.createApp({
 
             that = this
             
-            var url = "http://localhost:8080/sign-up";
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: { 
-                    email: this.emailreg, 
-                    psw : this.pswreg 
-                },
-                success: function(msg){
+            var url = "https://localhost:8083/sign-up";
+            data = { 
+                email: this.emailreg, 
+                psw : this.pswreg 
+            };
+            axios
+                .post(url,data)
+                .then(res => {
                     that.display_signin()
-                },
-                error: function(){
-                    alert("user already exist")
-                }
-            });
+                })
+                .catch(error => {
+                    console.log(error)
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                })
  
 
         },
@@ -113,7 +114,7 @@ let app = Vue.createApp({
                 email:this.email,
                 psw:this.psw
             }
-            var url = "http://localhost:8080/sign-in";
+            var url = "https://localhost:8083/sign-in";
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -121,7 +122,7 @@ let app = Vue.createApp({
                 contentType: "application/json",
                 statusCode:{
                     201: function(res){
-                        window.location.replace("http://localhost:8080/static/dashboard/index.html")
+                        window.location.replace("https://localhost:8083/static/dashboard/index.html")
                     },
                     401: function(res){
                         alert("wrong password")
