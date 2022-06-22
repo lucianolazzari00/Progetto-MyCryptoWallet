@@ -73,6 +73,29 @@ app.post("/sign-up", async(req,res)=>{
 
     await user.save()
     console.log("USER SALVATO")
+    
+    //sending email confirmation
+    amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
+        if (err) {
+            throw err;
+        }
+        connection.createChannel(function(error1, channel) {
+            if (error1) {
+            throw error1;
+            }
+            var queue = 'mail_queue1';
+            var msg = email
+
+            channel.assertQueue(queue, {
+                durable: true
+            });
+            channel.sendToQueue(queue, Buffer.from(msg), {
+                persistent: true
+            });
+            console.log("Sent '%s'", msg);
+        });
+    });
+    //res.send("message_sent")
     res.status(201).send()
 })
 
@@ -141,7 +164,7 @@ app.get("/logout",(req,res)=>{
                     })
                     .catch(error => {
                         console.error(error);
-                    });
+                    }); 
                 //------
             })
             .catch(error => {
