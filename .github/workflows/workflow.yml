@@ -25,6 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - run: npm --prefix ./backend/src install
-      - run: npm --prefix ./backend/src run test
+      - run: npm --prefix ./backend/src/api install
+      - run: npm --prefix ./backend/src/api run test
       #- run: sudo docker-compose -f backend/.docker/docker-compose.yml up 

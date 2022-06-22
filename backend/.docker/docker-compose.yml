@@ -10,7 +10,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ../../static:/www/data/static 
-      - ~/Desktop/certs_prod:/etc/nginx/certs
+      - ../certs:/etc/nginx/certs
     links:
       - node1:node1
     depends_on: 
@@ -26,19 +26,29 @@ services:
   node1:
     build:
       context: .
-      dockerfile: node.dockerfile
+      dockerfile: node_app.dockerfile
     working_dir: /usr/src/app
     volumes:
-      - ../src:/usr/src/app
+      - ../src/app:/usr/src/app
     ports:
       - "3000"
-    environment:
-      - INSTANCE=node1
     links:
       - mongo:mongo
       - couchdb:couchdb
     depends_on:
       - mongo
+    networks:
+      - app-network
+
+  node_api:
+    build:
+      context: .
+      dockerfile: node_api.dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ../src/api:/usr/src/app
+    ports:
+      - "3000"
     networks:
       - app-network
 
@@ -83,11 +93,9 @@ services:
       dockerfile: mailer.dockerfile
     working_dir: /usr/src/app
     volumes:
-      - ../src:/usr/src/app
+      - ../src/mailer:/usr/src/app
     ports:
       - "3000"
-    environment:
-      - INSTANCE=nodemailer1
     depends_on:
       - rabbitmq
     networks:
@@ -100,11 +108,9 @@ services:
       dockerfile: mailer.dockerfile
     working_dir: /usr/src/app
     volumes:
-      - ../src:/usr/src/app
+      - ../src/mailer:/usr/src/app
     ports:
       - "3000"
-    environment:
-      - INSTANCE=nodemailer2
     depends_on:
       - rabbitmq
     networks:
