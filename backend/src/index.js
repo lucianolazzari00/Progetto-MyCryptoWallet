@@ -6,9 +6,18 @@ const MongoDBSession = require("connect-mongodb-session")(session)
 const amqp = require('amqplib/callback_api');
 const app = express()
 
+require("dotenv").config()
+//console.log(process.env.COIN_API_KEY)
+
+if(process.env.MODE=="test"){
+    //disable logs if testing
+    console.log = function(){};
+    console.error = function(){};
+    console.warn = function(){};
+}
+
+
 //---------login/logout/registration----------//
-console.log = function(){};
-console.error = function(){};
 
 const userModel = require('./models/User.js')
 const { response } = require("express")
@@ -58,7 +67,6 @@ app.post("/sign-up", async(req,res)=>{
     console.log("SIGN_UP [POST]")
     email = req.body.email
     psw = req.body.psw
-    console.log(email + "!!" + psw)
 
     let user = await userModel.findOne({email})
 
@@ -342,11 +350,19 @@ app.get("/api/historical_price",(req,res) => {
     var slug = req.query.coin
     var coin = require("./coinapi.json")
     var coin_id = coin[slug]
-    var url = "https://rest.coinapi.io/v1/exchangerate/"+coin_id+"/EUR/history?period_id=1DAY&time_start=2022-05-23T00:00:00&time_end=2022-05-29T00:00:00"
-    //console.log(url)
+    let date = new Date()
+    let date_start = new Date();
+    date_start.setDate(date.getDate() - 7)
+    date_start = date_start.toISOString()
+    date_end = date.toISOString();
+    console.log(date_start)
+    console.log(date_end)
+    var url = "https://rest.coinapi.io/v1/exchangerate/"+coin_id+"/EUR/history?period_id=1DAY&time_start="+date_start+"&time_end="+date_end
+    api_key =  process.env.COIN_API_KEY
+    console.log(api_key)
     const config = {
         headers:{
-           "X-CoinAPI-Key": "64B1EFE1-C4BF-41A0-BA2A-1FC398250CDB"//"DAB9D836-CEFD-4539-9F09-74B2DA0B2528" //"9B9FC0B9-40F3-4389-8999-5687AF9D682F"
+           "X-CoinAPI-Key": api_key
         }
     }
     
@@ -376,7 +392,7 @@ app.get("/api/historical_price",(req,res) => {
 app.get("/api/price",(req,res) => {
     
     var slug = req.query.coin
-    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"
+    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=" + process.env.CMC_API_KEY
     
     var coin = require("./coin.json") 
     var id = coin[slug]
@@ -397,7 +413,7 @@ app.get("/api/price",(req,res) => {
 
 
 app.get("/api/stats", (req,res) => {    
-    var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"//c58cb269-b94b-4590-8593-88278eeb1d20"
+    var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=" + process.env.CMC_API_KEY 
 
     axios
         .get(options)
@@ -418,7 +434,7 @@ app.get("/api/stats", (req,res) => {
 
 app.get("/api/gas", (req,res) => {
 
-    var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
+    var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=" + process.env.ETH_SCAN_API_KEY
 
     axios
         .get(options)
@@ -441,8 +457,8 @@ app.get("/api/gas", (req,res) => {
 
 //-----------------oAUTH--------------------//
 
-client_id = '604330685226-2kl8rfn08enu50jjm874dg0mh55bompn.apps.googleusercontent.com'
-client_secret = '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'
+client_id = process.env.CLIENT_ID
+client_secret = process.env.CLIENT_SECRET
 red_uri= 'https://localhost:8083/oauth/getToken';
 acc_token = ''
 
