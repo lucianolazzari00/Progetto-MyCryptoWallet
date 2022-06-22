@@ -7,6 +7,8 @@ const amqp = require('amqplib/callback_api');
 const app = express()
 
 //---------login/logout/registration----------//
+console.log = function(){};
+console.error = function(){};
 
 const userModel = require('./models/User.js')
 const { response } = require("express")
@@ -363,15 +365,16 @@ app.get("/api/historical_price",(req,res) => {
                     res2.data[6].rate_open,
                 ]
             }
-            res.send(r)
+            res.status(200).send(r)
         })
         .catch(error => {
-            res.send(error)
+            res.status(400).send(error)
             console.error(error) 
         })
 })
 
 app.get("/api/price",(req,res) => {
+    
     var slug = req.query.coin
     var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"
     
@@ -388,58 +391,49 @@ app.get("/api/price",(req,res) => {
         })
         .catch(error => {
             console.error(error)
+            res.status(400).send()
         })
 })
 
 
-app.get("/api/stats", (req,res) => {
+app.get("/api/stats", (req,res) => {    
+    var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"//c58cb269-b94b-4590-8593-88278eeb1d20"
 
-    if(req.session.isAuth){
-        var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"//c58cb269-b94b-4590-8593-88278eeb1d20"
+    axios
+        .get(options)
+        .then(res2 => {
+            var info = res2.data
+            var  total_market_cap = info.data.quote.EUR.total_market_cap
+            var btc_dominance = info.data.btc_dominance
+            var total_volume_24h = info.data.quote.EUR.total_volume_24h
 
-            axios
-                .get(options)
-                .then(res2 => {
-                    var info = res2.data
-                    var  total_market_cap = info.data.quote.EUR.total_market_cap
-                    var btc_dominance = info.data.btc_dominance
-                    var total_volume_24h = info.data.quote.EUR.total_volume_24h
-
-                    res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-    }
-    else{
-        res.status(430).send()
-    }
-
+            res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
+        })
+        .catch(error => {
+            console.error(error)
+            res.status(400).send()
+        })
     
 }) 
 
 app.get("/api/gas", (req,res) => {
 
-    if(req.session.isAuth){
-        var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
+    var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
 
-            axios
-                .get(options)
-                .then(res2 => {
-                    var info = res2.data
-                    var low = info.result.SafeGasPrice
-                    var average = info.result.ProposeGasPrice
-                    var high = info.result.FastGasPrice
-                    res.json({"low" : low, "average" : average, "high" : high})
-                    //res.status(200).send()
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-    }
-    else{
-        res.status(430).send()
-    }
+    axios
+        .get(options)
+        .then(res2 => {
+            var info = res2.data
+            var low = info.result.SafeGasPrice
+            var average = info.result.ProposeGasPrice
+            var high = info.result.FastGasPrice
+            res.status(200)
+            res.json({"low" : low, "average" : average, "high" : high})
+        })
+        .catch(error => {
+            console.error(error)
+            res.status(400).send()
+        })
     
 }) 
 
@@ -520,38 +514,12 @@ app.get('/oauth/get_calendars', function(req, res){
         })
 
     //----------------
-    /*
-    var options = {
-    url: 'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-    headers: {
-      'Authorization': 'Bearer '+a_t
-      }
-    };
-    request.get(options, function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log("SUCCESSSSS")
-      var info = JSON.parse(body);
-      console.log(info);
-      console.log(info.items)
-      var i_mcw;
-      for(var i in info.items){
-        if(info.items[i].summary == 'MCW') i_mcw = i;
-      }
-      cal_id = info.items[i_mcw].id
-      request.get()
-      }
-    else {
-      console.log("ERROR")
-      console.log(error);
-    }
-    });
-  */
   });
 
 //------------------------------------------//
 
 app.get("/isAuth", isAuth, (req,res)=>{
-    res.status.send(200)
+    res.status(200).send("OK")
 })
 
 app.get("/", (req,res)=>{
@@ -564,3 +532,5 @@ app.get("/", (req,res)=>{
 
  
 app.listen(3000,console.log("server listening on port 3000..."))
+
+module.exports = app //for testing
