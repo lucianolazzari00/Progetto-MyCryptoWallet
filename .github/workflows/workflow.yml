@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CICD 
+name: CICD
 
 # Controls when the workflow will run
 on:
@@ -29,3 +29,4 @@ jobs:
           node-version: '14'
       - run: npm --prefix ./backend/src install
       - run: npm --prefix ./backend/src run test
+      - run: sudo docker-compose -f backend/.docker/docker-compose.yml up 

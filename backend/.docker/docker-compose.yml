@@ -10,7 +10,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ../../static:/www/data/static 
-      - ../certs:/etc/nginx/certs
+      - ~/Desktop/certs_prod:/etc/nginx/certs
     links:
       - node1:node1
     depends_on: 
