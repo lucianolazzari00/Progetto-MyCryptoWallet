@@ -27,6 +27,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: cd backend/src
-      - run: npm install
-      - run: npm test
+      - run: npm --prefix ./backend/src install
+      - run: npm --prefix ./backend/src run test
