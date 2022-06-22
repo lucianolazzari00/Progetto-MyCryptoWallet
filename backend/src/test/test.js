@@ -50,7 +50,7 @@ describe('Testing /api/historical_price', function() {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
                 res.body.price.should.be.a('array');
-                res.body.coin.should.equal('ethereummmmm')
+                res.body.coin.should.equal('ethereum')
                 done()
           });
     });
