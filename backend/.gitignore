@@ -2,4 +2,4 @@ test.rest
 mongo-data
 certs/
 node_modules
-.env
+
