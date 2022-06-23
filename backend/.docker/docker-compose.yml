@@ -40,7 +40,36 @@ services:
     networks:
       - app-network
 
+  node2:
+    build:
+      context: .
+      dockerfile: node_app.dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ../src/app:/usr/src/app
+    ports:
+      - "3000"
+    links:
+      - mongo:mongo
+      - couchdb:couchdb
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
   node_api:
+    build:
+      context: .
+      dockerfile: node_api.dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ../src/api:/usr/src/app
+    ports:
+      - "3000"
+    networks:
+      - app-network
+
+  node_api2:
     build:
       context: .
       dockerfile: node_api.dockerfile

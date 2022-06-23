@@ -1,30 +1,21 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CICD
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ master ]
+    branches: [ "**" ]
   pull_request:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  deploy:
-    # The type of runner that the job will run on
-    runs-on: self-hosted
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+jobs:
+  tests:
+    runs-on: self-hosted
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: npm --prefix ./backend/src/api install
       - run: npm --prefix ./backend/src/api run test
-      #- run: sudo docker-compose -f backend/.docker/docker-compose.yml up 
