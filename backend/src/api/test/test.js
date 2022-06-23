@@ -1,4 +1,4 @@
-process.env.MODE = 'test'
+process.env.MODE = 'testtt'
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
