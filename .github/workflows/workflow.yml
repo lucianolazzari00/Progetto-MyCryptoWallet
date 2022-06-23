@@ -1,0 +1,21 @@
+name: CICD
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+
+jobs:
+  tests:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm --prefix ./backend/src/api install
+      - run: npm --prefix ./backend/src/api run test

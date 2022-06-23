@@ -6,6 +6,10 @@ const MongoDBSession = require("connect-mongodb-session")(session)
 const amqp = require('amqplib/callback_api');
 const app = express()
 
+require("dotenv").config()
+
+
+
 //---------login/logout/registration----------//
 
 const userModel = require('./models/User.js')
@@ -35,7 +39,7 @@ app.use(express.json())
 //session configuration
 app.use(
     session({
-        secret: "8fd53awt456fsxe54",
+        secret: process.env.PSW_SECRET,
         resave: false,
         saveUninitialized: false,
         store: store,
@@ -56,7 +60,6 @@ app.post("/sign-up", async(req,res)=>{
     console.log("SIGN_UP [POST]")
     email = req.body.email
     psw = req.body.psw
-    console.log(email + "!!" + psw)
 
     let user = await userModel.findOne({email})
 
@@ -73,6 +76,29 @@ app.post("/sign-up", async(req,res)=>{
 
     await user.save()
     console.log("USER SALVATO")
+    
+    //sending email confirmation
+    amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
+        if (err) {
+            throw err;
+        }
+        connection.createChannel(function(error1, channel) {
+            if (error1) {
+            throw error1;
+            }
+            var queue = 'mail_queue1';
+            var msg = email
+
+            channel.assertQueue(queue, {
+                durable: true
+            });
+            channel.sendToQueue(queue, Buffer.from(msg), {
+                persistent: true
+            });
+            console.log("Sent '%s'", msg);
+        });
+    });
+    //res.send("message_sent")
     res.status(201).send()
 })
 
@@ -141,7 +167,7 @@ app.get("/logout",(req,res)=>{
                     })
                     .catch(error => {
                         console.error(error);
-                    });
+                    }); 
                 //------
             })
             .catch(error => {
@@ -307,148 +333,12 @@ app.get("/user/delete",(req,res)=>{
 
 //------------------------------------------//
 
-//----prova amqp-------
-app.get("/prova_amqp",(req,res)=>{
-    msggg = req.query.m
-    amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
-    if (err) {
-        throw err;
-    }
-    connection.createChannel(function(error1, channel) {
-        if (error1) {
-        throw error1;
-        }
-        var queue = 'mail_queue1';
-        var msg = msggg
-
-        channel.assertQueue(queue, {
-            durable: true
-        });
-        channel.sendToQueue(queue, Buffer.from(msg), {
-            persistent: true
-        });
-        console.log("Sent '%s'", msg);
-    });
-    });
-    res.send("message_sent")
-})
-//---------------------
-
-//------------------API---------------------//
-
-app.get("/api/historical_price",(req,res) => {
-    var slug = req.query.coin
-    var coin = require("./coinapi.json")
-    var coin_id = coin[slug]
-    var url = "https://rest.coinapi.io/v1/exchangerate/"+coin_id+"/EUR/history?period_id=1DAY&time_start=2022-05-23T00:00:00&time_end=2022-05-29T00:00:00"
-    //console.log(url)
-    const config = {
-        headers:{
-           "X-CoinAPI-Key": "64B1EFE1-C4BF-41A0-BA2A-1FC398250CDB"//"DAB9D836-CEFD-4539-9F09-74B2DA0B2528" //"9B9FC0B9-40F3-4389-8999-5687AF9D682F"
-        }
-    }
-    
-    axios
-        .get(url,config)
-        .then(res2 => {
-            var info = res2.data
-            r = {
-                coin : slug,
-                price : [res2.data[0].rate_open, 
-                    res2.data[1].rate_open, 
-                    res2.data[2].rate_open, 
-                    res2.data[3].rate_open, 
-                    res2.data[4].rate_open,
-                    res2.data[5].rate_open,
-                    res2.data[6].rate_open,
-                ]
-            }
-            res.send(r)
-        })
-        .catch(error => {
-            res.send(error)
-            console.error(error) 
-        })
-})
-
-app.get("/api/price",(req,res) => {
-    var slug = req.query.coin
-    var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"
-    
-    var coin = require("./coin.json") 
-    var id = coin[slug]
-    
-    axios
-        .get(options)
-        .then(res2 => {
-            var info = res2.data
-            var prezzo = info.data[id].quote.EUR.price
-            var percent_24h = info.data[id].quote.EUR.percent_change_24h
-            res.json({"prezzo" : prezzo, "name" : slug, "percent_24h" : percent_24h})
-        })
-        .catch(error => {
-            console.error(error)
-        })
-})
-
-
-app.get("/api/stats", (req,res) => {
-
-    if(req.session.isAuth){
-        var options = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest?convert=EUR&CMC_PRO_API_KEY=51d7bc76-a35c-42cc-abb5-b0049ecafd5e"//c58cb269-b94b-4590-8593-88278eeb1d20"
-
-            axios
-                .get(options)
-                .then(res2 => {
-                    var info = res2.data
-                    var  total_market_cap = info.data.quote.EUR.total_market_cap
-                    var btc_dominance = info.data.btc_dominance
-                    var total_volume_24h = info.data.quote.EUR.total_volume_24h
-
-                    res.json({"total_market_cap" : total_market_cap, "btc_dominance" : btc_dominance, "total_volume_24h" : total_volume_24h})
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-    }
-    else{
-        res.status(430).send()
-    }
-
-    
-}) 
-
-app.get("/api/gas", (req,res) => {
-
-    if(req.session.isAuth){
-        var options = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GMSE8824IKYNINNDUUE77U1FRRCSKPMEST"
-
-            axios
-                .get(options)
-                .then(res2 => {
-                    var info = res2.data
-                    var low = info.result.SafeGasPrice
-                    var average = info.result.ProposeGasPrice
-                    var high = info.result.FastGasPrice
-                    res.json({"low" : low, "average" : average, "high" : high})
-                    //res.status(200).send()
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-    }
-    else{
-        res.status(430).send()
-    }
-    
-}) 
-
-//------------------------------------------//
 
 //-----------------oAUTH--------------------//
 
-client_id = '604330685226-2kl8rfn08enu50jjm874dg0mh55bompn.apps.googleusercontent.com'
-client_secret = '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'
+client_id = process.env.CLIENT_ID
+client_secret = process.env.CLIENT_SECRET
+console.log(client_id)
 red_uri= 'https://localhost:8083/oauth/getToken';
 acc_token = ''
 
@@ -520,38 +410,12 @@ app.get('/oauth/get_calendars', function(req, res){
         })
 
     //----------------
-    /*
-    var options = {
-    url: 'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-    headers: {
-      'Authorization': 'Bearer '+a_t
-      }
-    };
-    request.get(options, function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log("SUCCESSSSS")
-      var info = JSON.parse(body);
-      console.log(info);
-      console.log(info.items)
-      var i_mcw;
-      for(var i in info.items){
-        if(info.items[i].summary == 'MCW') i_mcw = i;
-      }
-      cal_id = info.items[i_mcw].id
-      request.get()
-      }
-    else {
-      console.log("ERROR")
-      console.log(error);
-    }
-    });
-  */
   });
 
 //------------------------------------------//
 
 app.get("/isAuth", isAuth, (req,res)=>{
-    res.status.send(200)
+    res.status(200).send("OK")
 })
 
 app.get("/", (req,res)=>{
@@ -563,4 +427,4 @@ app.get("/", (req,res)=>{
 })
 
  
-app.listen(3000,console.log("server listening on port 3000..."))
+app.listen(3000,console.log("APP server listening on port 3000..."))
