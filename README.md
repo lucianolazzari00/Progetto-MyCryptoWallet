@@ -1,6 +1,8 @@
 # ProgettoRCLTW
 Web App | MyCryptoWallet
 
+![alt text](./diagrammaMCW.png)
+
 progetto realizzato per i corsi di Linguaggi e Tecnologie per il web e Reti di calcolatori, approfondendo la parte di frontend per il corso di LTW e backend per RC.
 
 il frontend è realizzato in HTML,CSS,JS e VUEJS, ed è contenuto nella cartella static.
