@@ -1,7 +1,7 @@
 # ProgettoRCLTW
 Web App | MyCryptoWallet
 
-![alt text](./diagrammaMCW.png)
+![alt text](./DiagrammaMCW.png)
 
 progetto realizzato per i corsi di Linguaggi e Tecnologie per il web e Reti di calcolatori, approfondendo la parte di frontend per il corso di LTW e backend per RC.
 
