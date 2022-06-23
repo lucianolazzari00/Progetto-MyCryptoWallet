@@ -79,9 +79,8 @@ let app = Vue.createApp({
                 })
                 .catch(error => {
                     console.log(error)
-                    console.log(error.response.data);
                     console.log(error.response.status);
-                    console.log(error.response.headers);
+                    if (error.response.status==403)alert("user already exist");
                 })
  
 

@@ -1,6 +1,8 @@
 var amqp = require('amqplib/callback_api');
 const nodemailer = require('nodemailer');
 
+require("dotenv").config()
+
 amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
   if (err) {
     throw err;
@@ -28,13 +30,13 @@ amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
       const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-          user: "mcwprova@outlook.com",
-          pass: "Lazi01900"
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PSW
         }
       });
 
       const options = {
-        from: "mcwprova@outlook.com",
+        from: process.env.EMAIL_USER,
         to: mail,
         subject: "Welcome to MyCriptoWallet",
         text: "Hi " + nome + ", thank you for joining us",

@@ -61,7 +61,6 @@ app.get("/api/historical_price",(req,res) => {
 })
 
 app.get("/api/price",(req,res) => {
-    
     var slug = req.query.coin
     var options = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?convert=EUR&slug=" + slug + "&CMC_PRO_API_KEY=" + process.env.CMC_API_KEY
     
