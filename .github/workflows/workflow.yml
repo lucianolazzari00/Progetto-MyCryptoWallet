@@ -18,5 +18,5 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: npm --prefix ./backend/src/api install
-      - run: cp  ../../env_tests/.env ./backend/src/api
+      #- run: cp  ../../env_tests/.env ./backend/src/api
       - run: npm --prefix ./backend/src/api run test
