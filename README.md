@@ -47,27 +47,35 @@ Le specifiche di progetto sono state rispettate:
 2. aggiungere files di configurazione
     nella repository non sono presenti i files .env per la configurazione dei servers poiche contengono informazioni private (keys,tokens,secrets...).
     la nostra applicazione ha tre servers(app server,api server, mailer server), ognuno di questi ha bisogno di un file .env per la configurazione.
+
     Dunque:
+
     - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/api
+        (per ottenere le chiavi e necessario registrarsi ai rispettivi servizi)
+
         ```
         MODE=dev
         COIN_API_KEY = /*****your_key******/
         CMC_API_KEY = /*****your_key******/
         ETH_SCAN_API_KEY = /*****your_key******/
         ```
-        (per ottenere le chiavi e necessario registrarsi ai rispettivi servizi)
+
     - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/app
+        (per ottnere client id e client secret e necessario registarsi su google cloud console)
+
         ```
         CLIENT_ID = /*****your_client_id*****/
         CLIENT_SECRET = /*****your_client_secret*****/
         PSW_SECRET = /*****the string that will sign the passwords in the db****/
         ```
-        (per ottnere client id e client secret e necessario registarsi su google cloud console)
+
     - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/mailer
+
         ```
         EMAIL_USER=/****indirizzo dal quale verrano inviate le mail di benvenuto*****/
         EMAIL_PSW=/****psw dell'account mail****/
         ```
+
 3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato
     dopo aver generato le chiavi avremo quattro files:
         - nginx.crt
@@ -75,8 +83,8 @@ Le specifiche di progetto sono state rispettate:
         - nginx.key
         - dhparam.pem
 
-        dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
-        
+    dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
+
 4. infine dobbiamo installare le dependencies(possiamo farlo direttamente dalla root folder con i comandi:)
 
     
