@@ -91,9 +91,9 @@ Le specifiche di progetto sono state rispettate:
 
 4. infine dobbiamo installare le dependencies, possiamo farlo direttamente dalla root folder con i comandi:
         ```bash
-        $ npm --prefix ./backend/src/api install
-        $ npm --prefix ./backend/src/app install
-        $ npm --prefix ./backend/src/mailer install
+        $npm --prefix ./backend/src/api install
+        $npm --prefix ./backend/src/app install
+        $npm --prefix ./backend/src/mailer install
         ```
 
     
