@@ -101,6 +101,12 @@ Le specifiche di progetto sono state rispettate:
     docker-compose -f ./backend/.docker/docker-compose.yml up 
 
     ```
+
+    per terminare:
+
+    ```
+    docker-compose -f ./backend/.docker/docker-compose.yml down
+    ```
 # Istruzioni per il test
 dalla root folder eseguire il comando:
 
