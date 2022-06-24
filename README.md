@@ -76,12 +76,12 @@ Le specifiche di progetto sono state rispettate:
         EMAIL_PSW=/****psw dell'account mail****/
         ```
 
-3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato
-    dopo aver generato le chiavi avremo quattro files:
-        - nginx.crt
-        - nginx.csr
-        - nginx.key
-        - dhparam.pem
+3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato.\n
+    Dopo aver generato le chiavi avremo quattro files:
+    - nginx.crt
+    - nginx.csr
+    - nginx.key
+    - dhparam.pem
 
     dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
 
