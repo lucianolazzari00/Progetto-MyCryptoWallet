@@ -44,7 +44,8 @@ Le specifiche di progetto sono state rispettate:
 ```bash
  $ git clone https://github.com/lucianolazzari00/ProgettoRCLTW.git
 ```
-2. aggiungere files di configurazione
+2. aggiungere files di configurazione:
+
     nella repository non sono presenti i files .env per la configurazione dei servers poiche contengono informazioni private (keys,tokens,secrets...).
     la nostra applicazione ha tre servers(app server,api server, mailer server), ognuno di questi ha bisogno di un file .env per la configurazione.
 
@@ -76,7 +77,8 @@ Le specifiche di progetto sono state rispettate:
         EMAIL_PSW=/****psw dell'account mail****/
         ```
 
-3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato.\n
+3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato.
+
     Dopo aver generato le chiavi avremo quattro files:
     - nginx.crt
     - nginx.csr
