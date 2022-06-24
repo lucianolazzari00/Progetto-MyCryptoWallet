@@ -52,6 +52,7 @@ Le specifiche di progetto sono state rispettate:
     Dunque:
 
     - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/api
+
         (per ottenere le chiavi e necessario registrarsi ai rispettivi servizi)
 
         ```
@@ -62,6 +63,7 @@ Le specifiche di progetto sono state rispettate:
         ```
 
     - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/app
+
         (per ottnere client id e client secret e necessario registarsi su google cloud console)
 
         ```
@@ -88,7 +90,7 @@ Le specifiche di progetto sono state rispettate:
     dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
 
 4. infine dobbiamo installare le dependencies, possiamo farlo direttamente dalla root folder con i comandi:
-        ```
+        ``` bash
         $ npm --prefix ./backend/src/api install
         $ npm --prefix ./backend/src/app install
         $ npm --prefix ./backend/src/mailer install
