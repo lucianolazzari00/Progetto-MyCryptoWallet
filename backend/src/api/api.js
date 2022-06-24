@@ -3,16 +3,13 @@ const axios = require("axios")
 const app = express()
 
 require("dotenv").config()
-//console.log(process.env.COIN_API_KEY)
 
 if(process.env.MODE=="test"){
     //disable logs if testing
     console.log = function(){};
     console.error = function(){};
     console.warn = function(){};
-}
-
-
+} 
 
 
 //------------------API---------------------//

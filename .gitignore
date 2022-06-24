@@ -1,5 +1,5 @@
 test.rest
 mongo-data
-certs/
+certs
 node_modules
-
+envvs
