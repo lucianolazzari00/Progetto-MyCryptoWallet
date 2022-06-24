@@ -95,10 +95,17 @@ Le specifiche di progetto sono state rispettate:
     $ npm --prefix ./backend/src/app install
     $ npm --prefix ./backend/src/mailer install
     ```
-    
+5. ora è possibile lanciare l'applicazione dalla root folder con:
+
+    ```
+    docker-compose -f ./backend/.docker/docker-compose.yml up 
+
+    ```
 # Istruzioni per il test
+dalla root folder eseguire il comando:
+
 ```
-npm test
+npm --prefix ./backend/src/api run test
 ```
 # ApiDoc
 
