@@ -89,12 +89,13 @@ Le specifiche di progetto sono state rispettate:
 
     dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
 
-4. infine dobbiamo installare le dependencies, possiamo farlo direttamente dalla root folder con i comandi: 
+4. infine dobbiamo installare le dependencies, possiamo farlo direttamente dalla root folder con i comandi:
         ```
-        $npm --prefix ./backend/src/api install
-        $npm --prefix ./backend/src/app install
-        $npm --prefix ./backend/src/mailer install
+        npm --prefix ./backend/src/api install
+        npm --prefix ./backend/src/app install
+        npm --prefix ./backend/src/mailer install
         ```
+    ciao
 
     
 # Istruzioni per il test
