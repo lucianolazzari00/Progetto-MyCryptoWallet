@@ -35,9 +35,49 @@ Le specifiche di progetto sono state rispettate:
     - il reverse proxy (nginx) parla https con i clients.(per gli scopi del progetto usiamo un self signed certificate)
     - le password degli utenti registrati vengono cifrate prima di essere salvate su db
 # Istruzioni per l'installazione
+0. Pre requisiti
+    prima di procedere dobbiamo avere installato sul nostro sistema:
+    - docker e docker-compose
+    - npm
+    - git 
+1. clonare la repository dell'applicazione
+```bash
+ git clone https://github.com/lucianolazzari00/ProgettoRCLTW.git
 ```
-npm install
-```
+2. aggiungere files di configurazione
+    nella repository non sono presenti i files .env per la configurazione dei servers poiche contengono informazioni private (keys,tokens,secrets...).
+    la nostra applicazione ha tre servers(app server,api server, mailer server), ognuno di questi ha bisogno di un file .env per la configurazione.
+    Dunque:
+    - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/api
+    ```
+    MODE=dev
+    COIN_API_KEY = /*****your_key******/
+    CMC_API_KEY = /*****your_key******/
+    ETH_SCAN_API_KEY = /*****your_key******/
+    ```
+    (per ottenere le chiavi e necessario registrarsi ai rispettivi servizi)
+    - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/app
+    ```
+    CLIENT_ID = /*****your_client_id*****/
+    CLIENT_SECRET = /*****your_client_secret*****/
+    PSW_SECRET = /*****the string that will sign the passwords in the db****/
+    ```
+    (per ottnere client id e client secret e necessario registarsi su google cloud console)
+    - creiamo il file .env strutturato come segue e lo inseriamo nella cartella backend/src/mailer
+    ```
+    EMAIL_USER=/****indirizzo dal quale verrano inviate le mail di benvenuto*****/
+    EMAIL_PSW=/****psw dell'account mail****/
+    ```
+3. inoltre dobbiamo generare le chiavi pubbliche/private e il certficato
+    dopo aver generato le chiavi avremo quattro files:
+    - nginx.crt
+    - nginx.csr
+    - nginx.key
+    - dhparam.pem
+    dobbiamo creare una cartella "certs" all'interno della cartella "backend" e inserire i quattro files precedentemente generati
+4. infine dobbiamo installare le dependencies(possiamo farlo direttamente dalla root folder con i comandi:)
+
+    
 # Istruzioni per il test
 ```
 npm test
