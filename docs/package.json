@@ -1,0 +1,19 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "package to generate documentation",
+  "main": "apidocs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "apidoc -i src/ -o ../static/apidocs/"
+  },
+  "author": "",
+  "license": "ISC",
+  "apidoc": {
+    "title": "Custom apiDoc browser title",
+    "url": "https://localhost:8083/api"
+  },
+  "dependencies": {
+    "apidoc": "^0.51.1"
+  }
+}
