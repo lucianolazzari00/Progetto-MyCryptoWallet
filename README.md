@@ -19,6 +19,9 @@ il diagramma riporta l'architettura e le tecnologie utilizzate.
 Per motivi grafici non è stato riportato nel diagramma che i container parlano tra di loro sulla rete virtuale di docker "app-network" attraverso il protocollo http(non è necessario https visto che si tratta di una rete privata),l'unica eccezione è il sistema asincrono per l'invio delle mail che parla il protocollo amqp
 # Requisiti
 Le specifiche di progetto sono state rispettate:
+
+(chiameremo il nostro servizio MCW, abbreviatvio di MyCriptoWallet)
+
 1. MCW offre delle api documentate con apidoc a terze parti
 2. MCW si interfaccia con 4 servizi di terze parti:
     - Google calendar
