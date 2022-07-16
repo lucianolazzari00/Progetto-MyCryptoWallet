@@ -118,4 +118,5 @@ npm --prefix ./backend/src/api run test
 ```
 # ApiDoc
 
+La documentazione dei servizi REST è raggiungibile tramite il path {domain_name}/static/apidocs
 
