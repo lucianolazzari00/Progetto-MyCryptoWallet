@@ -52,7 +52,7 @@ app.get("/api/historical_price",(req,res) => {
             res.status(200).send(r)
         })
         .catch(error => {
-            res.status(400).send(error)
+            res.status(400).send("error: bad request")
             console.error(error) 
         })
 })
@@ -74,7 +74,7 @@ app.get("/api/price",(req,res) => {
         })
         .catch(error => {
             console.error(error)
-            res.status(400).send()
+            res.status(400).send("error: bad request")
         })
 })
 
@@ -86,7 +86,7 @@ app.get("/api/stats", (req,res) => {
         .get(options)
         .then(res2 => {
             var info = res2.data
-            var  total_market_cap = info.data.quote.EUR.total_market_cap
+            var total_market_cap = info.data.quote.EUR.total_market_cap
             var btc_dominance = info.data.btc_dominance
             var total_volume_24h = info.data.quote.EUR.total_volume_24h
 
@@ -94,7 +94,7 @@ app.get("/api/stats", (req,res) => {
         })
         .catch(error => {
             console.error(error)
-            res.status(400).send()
+            res.status(400).send("error: bad request")
         })
     
 }) 
@@ -115,7 +115,7 @@ app.get("/api/gas", (req,res) => {
         })
         .catch(error => {
             console.error(error)
-            res.status(400).send()
+            res.status(400).send("error: bad request")
         })
     
 }) 
