@@ -57,13 +57,12 @@ const isAuth = (req,res,next) => {
 }
 
 app.post("/sign-up", async(req,res)=>{
-    console.log("SIGN_UP [POST]")
     email = req.body.email
     psw = req.body.psw
 
-    let user = await userModel.findOne({email})
-
     //controllo se esiste un user con la stessa email
+    let user = await userModel.findOne({email})
+   
     if(user){
         return res.status(403).send()
     } 
@@ -145,7 +144,8 @@ app.get("/logout",(req,res)=>{
     ssid = req.sessionID.toString()
     req.session.destroy((err)=>{
         if(err) {
-            throw err;
+            console.log("error destroing session");
+            console.log(err);
         }
         //remove session from couchdb
         axios

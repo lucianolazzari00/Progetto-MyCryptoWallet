@@ -19,7 +19,7 @@ describe('Testing /api/price', function() {
                 res.body.name.should.equal('bitcoin')
                 done()
           });
-    });
+    }); 
     it('should not get any price (passing fake coin)', function(done) {
         chai
             .request(index)
