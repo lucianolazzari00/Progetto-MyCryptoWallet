@@ -11,7 +11,7 @@ if(process.env.MODE=="test"){
     console.warn = function(){};
 } 
 
-
+ 
 //------------------API---------------------//
 
 app.get("/api/historical_price",(req,res) => {
