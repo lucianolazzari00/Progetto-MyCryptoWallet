@@ -6,7 +6,7 @@ require("dotenv").config()
 
 if(process.env.MODE=="test"){
     //disable logs if testing
-    console.log = function(){};
+    console.log = function(){ };
     console.error = function(){};
     console.warn = function(){};
 } 

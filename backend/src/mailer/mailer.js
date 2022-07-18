@@ -6,7 +6,7 @@ require("dotenv").config()
 amqp.connect('amqp://guest:guest@rabbitmq:5672', function(err, connection) {
   if (err) {
     throw err;
-  }
+  } 
   connection.createChannel(function(error1, channel) {
     if (error1) {
       throw error1;

@@ -243,7 +243,6 @@ app.get("/user/datas", (req,res)=>{
                 len_doc = response.data.docs.length
                 if(len_doc) user_mail = response.data.docs[0].user;
                 else return res.status(401).send()
-                console.log("usermail : " + user_mail)
                 //-----
                 axios
                     .post(couch_url_data + "/_find",{
@@ -338,7 +337,6 @@ app.get("/user/delete",(req,res)=>{
 
 client_id = process.env.CLIENT_ID
 client_secret = process.env.CLIENT_SECRET
-console.log(client_id)
 red_uri= 'https://localhost:8083/oauth/getToken';
 acc_token = ''
 
@@ -384,7 +382,6 @@ app.get('/oauth/get_calendars', function(req, res){
     axios
         .get('https://www.googleapis.com/calendar/v3/users/me/calendarList',config)
         .then(response =>{
-            console.log(response.data)
             calendars = response.data.items
             i_mcw = 0
             for (var i in calendars){
@@ -397,7 +394,6 @@ app.get('/oauth/get_calendars', function(req, res){
             axios
                 .get('https://www.googleapis.com/calendar/v3/calendars/' + cal_id + '/events',config)
                 .then(response2 =>{
-                    console.log(response2.data)
                     res.send(response2.data)
                 })
                 .catch(error2 =>{
